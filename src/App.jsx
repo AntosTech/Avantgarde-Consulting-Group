@@ -184,7 +184,14 @@ function Nav({ page, setPage, theme, toggleTheme }) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         {/* Logo */}
         <button onClick={() => navigate("Home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-          <img src="/logo.png" alt="Avantgarde Consulting Group" style={{ height: 38, width: "auto", display: "block" }} />
+          <img
+            src="/logo.png"
+            alt="Avantgarde Consulting Group"
+            style={{
+              height: 38, width: "auto", display: "block",
+              mixBlendMode: theme === "dark" ? "normal" : "multiply",
+            }}
+          />
         </button>
 
         {/* Desktop links */}
