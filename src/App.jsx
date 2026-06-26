@@ -188,7 +188,7 @@ function Nav({ page, setPage, theme, toggleTheme }) {
             src="/logo.png"
             alt="Avantgarde Consulting Group"
             style={{
-              height: 38, width: "auto", display: "block",
+              height: 56, width: "auto", display: "block",
               mixBlendMode: theme === "dark" ? "normal" : "multiply",
             }}
           />
