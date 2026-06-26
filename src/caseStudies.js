@@ -273,6 +273,42 @@ export const CASE_STUDIES = [
     },
     related: ["document-processing-pipeline", "credit-union-fraud-detection"],
   },
+  {
+    slug: "document-automation-roi",
+    title: "200–300% ROI from AI document automation across industries",
+    client: "Cross-Industry Analysis",
+    industry: "Professional Services",
+    image: "/cases/document-roi.png",
+    summary:
+      "An analysis of 10 real-world AI document automation deployments found consistent, measurable ROI — strongest in invoices, claims, onboarding, and compliance workflows.",
+    cardMetric: "200–300% first-year ROI",
+    hero: {
+      tagline: "What 10 real-world deployments reveal about the ROI of AI document automation.",
+    },
+    problem:
+      "Organisations know manual document handling is expensive, but the return on automating it is often unclear before they invest. Without hard numbers across comparable deployments, it's hard to justify the spend or predict where AI document automation actually pays off the fastest.",
+    solution:
+      "An analysis of 10 real-world AI document automation deployments quantified the return. Across companies, automation delivered 200–300% ROI in the first year, cut processing time by 60–70%, and reached up to 99% extraction accuracy — with the strongest results in high-volume, structured workflows like invoices, claims, onboarding, and compliance documents.",
+    results: [
+      { metric: "200–300%", label: "First-year ROI" },
+      { metric: "60–70%", label: "Reduction in processing time" },
+      { metric: "Up to 99%", label: "Extraction accuracy" },
+      { metric: "Invoices & claims", label: "Best-performing workflows" },
+    ],
+    demoVideo: null,
+    poster: "/cases/document-roi.png",
+    workflow: [
+      { label: "Identify high-volume docs", desc: "Target invoices, claims, onboarding, and compliance paperwork." },
+      { label: "Automate extraction", desc: "AI captures data at up to 99% accuracy." },
+      { label: "Cut processing time", desc: "Cycle time drops 60–70% versus manual handling." },
+      { label: "Measure ROI", desc: "Deployments return 200–300% in the first year." },
+    ],
+    source: {
+      label: "Parseur — Document Automation ROI",
+      url: "https://parseur.com/blog/document-automation-roi",
+    },
+    related: ["document-processing-pipeline", "cross-department-document-automation"],
+  },
 ];
 
 export function getCaseStudy(slug) {
