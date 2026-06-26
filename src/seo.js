@@ -28,6 +28,13 @@ export const SEO = {
     og_description: "Interactive automation demos for client onboarding, learner enrollment, and invoice generation. Plus a free workflow audit with 48-hour turnaround.",
     canonical: "https://meetavantgarde.com/demo",
   },
+  Intake: {
+    title: "Client Intake Form — Avantgarde Consulting Group LLC",
+    description: "Tell us about the workflow you want to automate. 9 sections, 5–8 minutes. We'll send a scoped proposal within 48 hours.",
+    og_title: "Start your automation project — Client Intake Form",
+    og_description: "Submit your workflow details and receive a tailored automation proposal from Avantgarde Consulting Group within 48 hours.",
+    canonical: "https://meetavantgarde.com/intake",
+  },
   Contact: {
     title: "Contact Us — Avantgarde Consulting Group LLC",
     description: "Book a free 30-minute discovery call with Avantgarde Consulting Group. Response within 48 hours. No hard sell — just an honest conversation.",
@@ -35,17 +42,10 @@ export const SEO = {
     og_description: "Start with a conversation. We respond within 48 hours and offer a free 30-minute discovery call with no obligation.",
     canonical: "https://meetavantgarde.com/contact",
   },
-  CaseStudies: {
-    title: "Case Studies — Automation Results | Avantgarde Consulting Group",
-    description: "Real workflow automation results for professional service firms and educational organisations — from client onboarding to compliance reporting.",
-    og_title: "Avantgarde Consulting Case Studies",
-    og_description: "See how we replaced manual work with reliable automation across professional services and education. Real workflows, real hours saved.",
-    canonical: "https://meetavantgarde.com/case-studies",
-  },
 };
 
-export function applySEO(page, override) {
-  const meta = { ...(SEO[page] || SEO.Home), ...(override || {}) };
+export function applySEO(page) {
+  const meta = SEO[page] || SEO.Home;
 
   // Title
   document.title = meta.title;
