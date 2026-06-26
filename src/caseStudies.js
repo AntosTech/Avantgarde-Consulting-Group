@@ -2,7 +2,7 @@
 // Edit this file to add, remove, or update case studies. Each entry powers both
 // the Case Studies grid and the individual Case Study template page.
 
-export const INDUSTRIES = ["All", "Professional Services", "Financial Services", "Education", "Government"];
+export const INDUSTRIES = ["All", "Professional Services", "Financial Services", "Education", "Government", "Industrial"];
 
 export const CASE_STUDIES = [
   {
@@ -344,6 +344,42 @@ export const CASE_STUDIES = [
       url: "https://www.uipath.com/resources/automation-case-studies/buchanan-ingersoll-rooney",
     },
     related: ["boutique-law-practice", "document-processing-pipeline"],
+  },
+  {
+    slug: "continental-engineering-validation",
+    title: "Automating engineering validation with AI orchestration",
+    client: "Continental Resources",
+    industry: "Industrial",
+    image: "/cases/engineering.png",
+    summary:
+      "Continental Resources replaced fragmented email-based workflows with AI-powered orchestration — speeding up engineering decisions and cutting manual coordination.",
+    hero: {
+      tagline: "How AI orchestration replaced email chains in technical validation workflows.",
+    },
+    cardMetric: "Faster engineering decisions",
+    problem:
+      "Engineering validation ran on fragmented, email-based workflows. Requests, reviews, and approvals were scattered across inboxes, making it hard to track status, coordinate across teams, and move decisions forward. The manual coordination slowed engineering throughput and left room for things to fall through the cracks.",
+    solution:
+      "Continental Resources replaced those email chains with AI-powered orchestration that routes validation requests to the right people, tracks each step, and keeps work moving without manual chasing. Engineering decisions happen faster, the validation process is streamlined end to end, and teams spend far less time coordinating by hand.",
+    results: [
+      { metric: "Faster", label: "Engineering decisions" },
+      { metric: "Streamlined", label: "End-to-end validation process" },
+      { metric: "Less coordination", label: "Reduced manual chasing" },
+      { metric: "No email chains", label: "Centralised, tracked workflow" },
+    ],
+    demoVideo: null,
+    poster: "/cases/engineering.png",
+    workflow: [
+      { label: "Request submitted", desc: "Validation requests enter one orchestrated workflow, not email." },
+      { label: "AI routing", desc: "Each request is routed to the right reviewers automatically." },
+      { label: "Tracked review", desc: "Every step is tracked, so nothing stalls or gets lost." },
+      { label: "Decision recorded", desc: "Approvals are captured and the process moves forward faster." },
+    ],
+    source: {
+      label: "UiPath — Continental Resources",
+      url: "https://www.uipath.com/resources/automation-case-studies/continental-resources",
+    },
+    related: ["cross-department-document-automation", "federal-permitting-agency"],
   },
 ];
 
