@@ -35,10 +35,17 @@ export const SEO = {
     og_description: "Start with a conversation. We respond within 48 hours and offer a free 30-minute discovery call with no obligation.",
     canonical: "https://meetavantgarde.com/contact",
   },
+  CaseStudies: {
+    title: "Case Studies — Automation Results | Avantgarde Consulting Group",
+    description: "Real workflow automation results for professional service firms and educational organisations — from client onboarding to compliance reporting.",
+    og_title: "Avantgarde Consulting Case Studies",
+    og_description: "See how we replaced manual work with reliable automation across professional services and education. Real workflows, real hours saved.",
+    canonical: "https://meetavantgarde.com/case-studies",
+  },
 };
 
-export function applySEO(page) {
-  const meta = SEO[page] || SEO.Home;
+export function applySEO(page, override) {
+  const meta = { ...(SEO[page] || SEO.Home), ...(override || {}) };
 
   // Title
   document.title = meta.title;
