@@ -309,6 +309,42 @@ export const CASE_STUDIES = [
     },
     related: ["document-processing-pipeline", "cross-department-document-automation"],
   },
+  {
+    slug: "buchanan-litigation-workflows",
+    title: "Improving litigation workflows with AI and human-in-the-loop",
+    client: "Buchanan Law Firm",
+    industry: "Professional Services",
+    image: "/cases/litigation.png",
+    summary:
+      "Buchanan Law Firm automated litigation workflows with AI plus human-in-the-loop orchestration — cutting manual effort, raising consistency, and improving the attorney experience.",
+    cardMetric: "Less manual effort",
+    hero: {
+      tagline: "How AI with human-in-the-loop orchestration streamlined litigation work for attorneys.",
+    },
+    problem:
+      "Litigation work involves repetitive, document-heavy steps — reviewing, classifying, and routing case files — that consumed attorney and staff time. Doing this manually was slow and inconsistent from matter to matter, pulling skilled attorneys away from substantive legal work and into administrative effort.",
+    solution:
+      "Buchanan Law Firm automated its litigation workflows using AI combined with human-in-the-loop orchestration. The AI handles summarization, classification, and routing of case files, while attorneys stay in control by reviewing and approving at key decision points. The result is less manual effort, more consistent handling across matters, and a better day-to-day experience for attorneys.",
+    results: [
+      { metric: "Less effort", label: "Reduced manual case-file work" },
+      { metric: "Consistency", label: "Uniform handling across matters" },
+      { metric: "Attorney UX", label: "Improved day-to-day experience" },
+      { metric: "Human-in-loop", label: "Attorneys approve key decisions" },
+    ],
+    demoVideo: null,
+    poster: "/cases/litigation.png",
+    workflow: [
+      { label: "Case files ingested", desc: "Litigation documents enter the automated workflow." },
+      { label: "AI summarizes & classifies", desc: "Files are summarized and classified by document type." },
+      { label: "Attorney review", desc: "Human-in-the-loop approval at key decision points." },
+      { label: "Routed onward", desc: "Approved files are routed consistently to the next step." },
+    ],
+    source: {
+      label: "UiPath — Buchanan Law Firm",
+      url: "https://www.uipath.com/resources/automation-case-studies/buchanan-ingersoll-rooney",
+    },
+    related: ["boutique-law-practice", "document-processing-pipeline"],
+  },
 ];
 
 export function getCaseStudy(slug) {
