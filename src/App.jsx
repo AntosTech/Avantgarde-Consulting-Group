@@ -1,23 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { applySEO } from "./seo.js";
+import { CASE_STUDIES, INDUSTRIES, getCaseStudy, getRelated } from "./caseStudies.js";
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 const C = {
-  white:       "#FFFFFF",
-  cream:       "#FAFAF8",
-  creamDark:   "#F3F1ED",
-  ink:         "#1A1A1A",
-  inkSoft:     "#2E2E2E",
-  inkMid:      "#4A4A4A",
-  muted:       "#7A7A7A",
-  mutedLight:  "#A0A0A0",
-  border:      "#E8E5E0",
-  borderMid:   "#D8D4CE",
+  white:       "var(--c-white)",
+  cream:       "var(--c-cream)",
+  creamDark:   "var(--c-cream-dark)",
+  ink:         "var(--c-ink)",
+  inkSoft:     "var(--c-ink-soft)",
+  inkMid:      "var(--c-ink-mid)",
+  muted:       "var(--c-muted)",
+  mutedLight:  "var(--c-muted-light)",
+  border:      "var(--c-border)",
+  borderMid:   "var(--c-border-mid)",
   orange:      "#E8870A",
   orangeLight: "#F5A535",
-  orangePale:  "#FEF3E2",
+  orangePale:  "var(--c-orange-pale)",
   orangeBorder:"rgba(232,135,10,0.25)",
-  black:       "#111111",
+  black:       "var(--c-black)",
+  // Always-light text that sits on the orange/dark accent (never inverts)
+  onAccent:    "#FFFFFF",
+  // Intentional dark contrast bands (footer/CTA) that stay dark in both themes
+  inkBg:       "var(--c-ink-bg)",
 };
 
 const FONT_DISPLAY = "'DM Serif Display', Georgia, serif";
@@ -34,6 +39,60 @@ function useIsMobile(breakpoint = 768) {
     return () => window.removeEventListener("resize", handler);
   }, [breakpoint]);
   return isMobile;
+}
+
+// ─── THEME HOOK ───────────────────────────────────────────────────────────────
+function getInitialTheme() {
+  if (typeof window === "undefined") return "light";
+  const stored = window.localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+  // Fall back to the value the inline boot script already applied, then OS pref
+  const current = document.documentElement.dataset.theme;
+  if (current === "light" || current === "dark") return current;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function useTheme() {
+  const [theme, setTheme] = useState(getInitialTheme);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { window.localStorage.setItem("theme", theme); } catch (e) { /* ignore */ }
+  }, [theme]);
+  const toggleTheme = () => setTheme(t => (t === "dark" ? "light" : "dark"));
+  return { theme, toggleTheme };
+}
+
+// ─── THEME TOGGLE ─────────────────────────────────────────────────────────────
+function ThemeToggle({ theme, toggleTheme }) {
+  const isDark = theme === "dark";
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      style={{
+        background: "none", border: `1px solid ${C.border}`,
+        width: 38, height: 38, borderRadius: 8, cursor: "pointer",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        color: C.inkMid, flexShrink: 0, transition: "color 0.2s, border-color 0.2s",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.color = C.orange; e.currentTarget.style.borderColor = C.orange; }}
+      onMouseLeave={e => { e.currentTarget.style.color = C.inkMid; e.currentTarget.style.borderColor = C.border; }}
+    >
+      {isDark ? (
+        // Sun
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        // Moon
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
 }
 
 // ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
@@ -71,9 +130,9 @@ function Heading({ children, size = "2.4rem", color = C.ink, style: s = {} }) {
 function Btn({ children, onClick, variant = "primary", size = "md", disabled = false, full = false }) {
   const pad = size === "sm" ? "8px 18px" : size === "lg" ? "14px 32px" : "11px 26px";
   const styles = {
-    primary: { background: C.orange,   color: C.white,  border: "none" },
+    primary: { background: C.orange,   color: C.onAccent,  border: "none" },
     ghost:   { background: "none",     color: C.orange, border: `1.5px solid ${C.orange}` },
-    dark:    { background: C.ink,      color: C.white,  border: "none" },
+    dark:    { background: C.inkBg,    color: C.onAccent,  border: "none" },
     outline: { background: "none",     color: C.inkMid, border: `1.5px solid ${C.borderMid}` },
   };
   return (
@@ -96,10 +155,12 @@ function Dot() {
 }
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-function Nav({ page, setPage }) {
+function Nav({ page, setPage, theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useIsMobile();
-  const links = ["About", "Services", "Demo", "Contact"];
+  const links = ["About", "Services", "CaseStudies", "Demo", "Contact"];
+  const label = (k) => (k === "CaseStudies" ? "Case Studies" : k);
+  const isActive = (k) => page === k || (k === "CaseStudies" && page === "CaseStudyDetail");
   const menuRef = useRef(null);
 
   // Close menu on outside click
@@ -133,19 +194,22 @@ function Nav({ page, setPage }) {
               <button key={l} onClick={() => navigate(l)} style={{
                 background: "none", border: "none", cursor: "pointer",
                 fontFamily: FONT_BODY, fontSize: 13,
-                color: page === l ? C.orange : C.muted,
-                fontWeight: page === l ? 500 : 400,
+                color: isActive(l) ? C.orange : C.muted,
+                fontWeight: isActive(l) ? 500 : 400,
                 letterSpacing: "0.06em", textTransform: "uppercase",
-                borderBottom: `2px solid ${page === l ? C.orange : "transparent"}`,
-                paddingBottom: 2, transition: "color 0.2s",
-              }}>{l}</button>
+                borderBottom: `2px solid ${isActive(l) ? C.orange : "transparent"}`,
+                paddingBottom: 2, transition: "color 0.2s", whiteSpace: "nowrap",
+              }}>{label(l)}</button>
             ))}
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <Btn onClick={() => navigate("Contact")} size="sm">Book a Call</Btn>
           </div>
         )}
 
         {/* Mobile hamburger */}
         {isMobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <button onClick={() => setMenuOpen(o => !o)} style={{
             background: "none", border: `1px solid ${C.border}`,
             padding: "8px 10px", borderRadius: 4, cursor: "pointer",
@@ -163,6 +227,7 @@ function Nav({ page, setPage }) {
               }} />
             ))}
           </button>
+          </div>
         )}
       </div>
 
@@ -175,14 +240,14 @@ function Nav({ page, setPage }) {
         }}>
           {links.map(l => (
             <button key={l} onClick={() => navigate(l)} style={{
-              background: page === l ? C.orangePale : "none",
+              background: isActive(l) ? C.orangePale : "none",
               border: "none", cursor: "pointer",
               fontFamily: FONT_BODY, fontSize: 14,
-              color: page === l ? C.orange : C.inkMid,
-              fontWeight: page === l ? 500 : 400,
+              color: isActive(l) ? C.orange : C.inkMid,
+              fontWeight: isActive(l) ? 500 : 400,
               padding: "12px 1rem", textAlign: "left",
-              borderLeft: `3px solid ${page === l ? C.orange : "transparent"}`,
-            }}>{l}</button>
+              borderLeft: `3px solid ${isActive(l) ? C.orange : "transparent"}`,
+            }}>{label(l)}</button>
           ))}
           <div style={{ padding: "8px 1rem 0" }}>
             <Btn onClick={() => navigate("Contact")} full>Book a Call</Btn>
@@ -197,7 +262,7 @@ function Nav({ page, setPage }) {
 function Footer({ setPage }) {
   const isMobile = useIsMobile();
   return (
-    <footer style={{ background: C.black, color: C.white, padding: "3.5rem 1.5rem 2rem" }}>
+    <footer style={{ background: C.black, color: C.onAccent, padding: "3.5rem 1.5rem 2rem" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{
           display: "grid",
@@ -217,13 +282,13 @@ function Footer({ setPage }) {
           {isMobile ? (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
               {[
-                { label: "Pages",    items: ["Home", "About", "Services", "Demo", "Contact"] },
+                { label: "Pages",    items: ["Home", "About", "Services", "Case Studies", "Demo", "Contact"] },
                 { label: "Services", items: ["AI Governance", "Workflow Automation", "Power Platform", "Cloud Advisory"] },
               ].map(col => (
                 <div key={col.label}>
                   <p style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: C.orange, marginBottom: 12 }}>{col.label}</p>
                   {col.items.map(item => (
-                    <p key={item} onClick={() => col.label === "Pages" && setPage(item)} style={{
+                    <p key={item} onClick={() => col.label === "Pages" && setPage(item === "Case Studies" ? "CaseStudies" : item)} style={{
                       fontSize: 13, color: "#9A9A9E", marginBottom: 9, lineHeight: 1.5,
                       cursor: col.label === "Pages" ? "pointer" : "default",
                     }}>{item}</p>
@@ -233,18 +298,18 @@ function Footer({ setPage }) {
             </div>
           ) : (
             [
-              { label: "Pages",    items: ["Home", "About", "Services", "Demo", "Contact"] },
+              { label: "Pages",    items: ["Home", "About", "Services", "Case Studies", "Demo", "Contact"] },
               { label: "Services", items: ["AI Governance", "Workflow Automation", "Power Platform", "Cloud Advisory"] },
               { label: "Sectors",  items: ["Professional Services", "Education & Training", "Healthcare", "E-commerce"] },
             ].map(col => (
               <div key={col.label}>
                 <p style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: C.orange, marginBottom: 14 }}>{col.label}</p>
                 {col.items.map(item => (
-                  <p key={item} onClick={() => col.label === "Pages" && setPage(item)} style={{
+                  <p key={item} onClick={() => col.label === "Pages" && setPage(item === "Case Studies" ? "CaseStudies" : item)} style={{
                     fontSize: 13, color: "#9A9A9E", marginBottom: 10, lineHeight: 1.5,
                     cursor: col.label === "Pages" ? "pointer" : "default",
                   }}
-                    onMouseEnter={e => col.label === "Pages" && (e.target.style.color = C.white)}
+                    onMouseEnter={e => col.label === "Pages" && (e.target.style.color = C.onAccent)}
                     onMouseLeave={e => col.label === "Pages" && (e.target.style.color = "#9A9A9E")}
                   >{item}</p>
                 ))}
@@ -338,8 +403,8 @@ function HomePage({ setPage }) {
               padding: "14px 18px", display: "flex",
               alignItems: "center", justifyContent: "space-between", marginTop: 4,
             }}>
-              <span style={{ fontSize: 13, color: C.white, fontWeight: 500 }}>Average time saved per week</span>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: C.white }}>12+ hrs</span>
+              <span style={{ fontSize: 13, color: C.onAccent, fontWeight: 500 }}>Average time saved per week</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: C.onAccent }}>12+ hrs</span>
             </div>
           </div>
         </div>
@@ -441,9 +506,9 @@ function HomePage({ setPage }) {
       </section>
 
       {/* BOTTOM CTA */}
-      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5.5rem 2rem", background: C.ink, textAlign: "center" }}>
+      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5.5rem 2rem", background: C.inkBg, textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <Heading size="2.6rem" color={C.white} style={{ marginBottom: 18 }}>
+          <Heading size="2.6rem" color={C.onAccent} style={{ marginBottom: 18 }}>
             Not sure where automation fits in your business?
           </Heading>
           <p style={{ fontSize: 15, color: "#9A9A9E", lineHeight: 1.9, marginBottom: 32 }}>
@@ -561,7 +626,7 @@ function AboutPage({ setPage }) {
       </section>
 
       {/* COMPANY PROFILE */}
-      <section style={{ padding: isMobile ? "2rem 1.25rem" : "2.5rem 2rem", background: C.ink }}>
+      <section style={{ padding: isMobile ? "2rem 1.25rem" : "2.5rem 2rem", background: C.inkBg }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center", justifyContent: "space-between", gap: 20 }}>
           <div>
             <Label>Company profile</Label>
@@ -660,7 +725,7 @@ function ServicesPage({ setPage }) {
               {s.featured && (
                 <div style={{
                   position: "absolute", top: -1, right: 16,
-                  background: C.orange, color: C.white,
+                  background: C.orange, color: C.onAccent,
                   fontSize: 10, fontWeight: 600, padding: "3px 12px",
                   letterSpacing: "0.08em", textTransform: "uppercase",
                 }}>Most requested</div>
@@ -803,7 +868,7 @@ function DemoPage() {
               <div style={{ display: "flex", gap: 10 }}>
                 <button onClick={runDemo} disabled={running} style={{
                   background: running ? C.borderMid : C.orange,
-                  color: running ? C.muted : C.white,
+                  color: running ? C.muted : C.onAccent,
                   border: "none", padding: "11px 20px", borderRadius: 6,
                   fontSize: 13, fontWeight: 600, cursor: running ? "not-allowed" : "pointer",
                   fontFamily: FONT_BODY, flex: 1,
@@ -831,7 +896,7 @@ function DemoPage() {
                     display: "flex", alignItems: "flex-start", gap: 12,
                     padding: "11px 13px", borderRadius: 8,
                     border: `1px solid ${done ? C.orange : active ? C.orangeLight : C.border}`,
-                    background: done ? C.orangePale : active ? "#FFFBF4" : C.cream,
+                    background: done ? C.orangePale : active ? C.orangePale : C.cream,
                     transition: "all 0.3s",
                   }}>
                     <div style={{
@@ -839,7 +904,7 @@ function DemoPage() {
                       background: done ? C.orange : active ? C.orangePale : C.creamDark,
                       border: `1px solid ${done ? C.orange : active ? C.orangeBorder : C.border}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: done ? 13 : 15, color: done ? C.white : C.ink,
+                      fontSize: done ? 13 : 15, color: done ? C.onAccent : C.ink,
                       fontWeight: done ? 700 : 400, transition: "all 0.3s",
                     }}>{done ? "✓" : s.icon}</div>
                     <div>
@@ -882,7 +947,7 @@ function DemoPage() {
                       background: auditStep >= i ? C.orange : C.creamDark,
                       border: `1px solid ${auditStep >= i ? C.orange : C.border}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 12, color: auditStep >= i ? C.white : C.muted,
+                      fontSize: 12, color: auditStep >= i ? C.onAccent : C.muted,
                       fontWeight: 600, transition: "all 0.3s",
                     }}>{i + 1}</div>
                     <span style={{ fontSize: 12, color: auditStep >= i ? C.orange : C.muted }}>
@@ -947,7 +1012,7 @@ function DemoPage() {
                       disabled={!auditData.workflow || !auditData.hours}
                       style={{
                         flex: 1, background: auditData.workflow && auditData.hours ? C.orange : C.creamDark,
-                        color: auditData.workflow && auditData.hours ? C.white : C.muted,
+                        color: auditData.workflow && auditData.hours ? C.onAccent : C.muted,
                         border: "none", padding: "13px", borderRadius: 6,
                         fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
                         cursor: auditData.workflow && auditData.hours ? "pointer" : "not-allowed",
@@ -1069,7 +1134,7 @@ function ContactPage() {
                 </div>
                 <button onClick={() => canSubmit && setSent(true)} disabled={!canSubmit} style={{
                   background: canSubmit ? C.orange : C.creamDark,
-                  color: canSubmit ? C.white : C.muted,
+                  color: canSubmit ? C.onAccent : C.muted,
                   border: "none", padding: "14px", borderRadius: 6,
                   fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
                   cursor: canSubmit ? "pointer" : "not-allowed", width: "100%",
@@ -1096,21 +1161,370 @@ function ContactPage() {
   );
 }
 
+// ─── CASE STUDY CARD ───────────────────────────────────────────────────────────
+function CaseStudyCard({ cs, openCase, isMobile }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <article
+      onClick={() => openCase(cs.slug)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        border: `1px solid ${hover ? C.orange : C.border}`,
+        borderRadius: 12, overflow: "hidden", background: C.cream,
+        display: "flex", flexDirection: "column", cursor: "pointer",
+        transition: "border-color 0.2s, transform 0.2s",
+        transform: hover && !isMobile ? "translateY(-3px)" : "none",
+      }}
+    >
+      <div style={{ position: "relative", aspectRatio: "16 / 10", overflow: "hidden", background: C.creamDark }}>
+        <img src={cs.image} alt={`${cs.client} case study`} style={{
+          width: "100%", height: "100%", objectFit: "cover", display: "block",
+          transition: "transform 0.4s", transform: hover && !isMobile ? "scale(1.04)" : "scale(1)",
+        }} />
+        <span style={{
+          position: "absolute", top: 12, left: 12,
+          background: C.white, color: C.orange,
+          fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
+          textTransform: "uppercase", padding: "4px 10px", borderRadius: 2,
+          border: `1px solid ${C.orangeBorder}`,
+        }}>{cs.industry}</span>
+      </div>
+      <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flexGrow: 1 }}>
+        <p style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.muted, marginBottom: 8 }}>{cs.client}</p>
+        <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: "1.15rem", color: C.ink, lineHeight: 1.3, marginBottom: 10 }}>{cs.title}</h3>
+        <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.75, marginBottom: 16, flexGrow: 1 }}>{cs.summary}</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+          <span style={{ fontFamily: FONT_DISPLAY, fontSize: "0.95rem", color: C.orange }}>{cs.cardMetric}</span>
+          <span style={{ fontSize: 12, color: hover ? C.orange : C.inkMid, fontWeight: 500, transition: "color 0.2s" }}>Read case study →</span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+// ─── CASE STUDIES PAGE ──────────────────────────────────────────────────────────
+function CaseStudiesPage({ setPage, openCase }) {
+  const [industry, setIndustry] = useState("All");
+  const isMobile = useIsMobile();
+  const filtered = industry === "All" ? CASE_STUDIES : CASE_STUDIES.filter(c => c.industry === industry);
+
+  return (
+    <div style={{ background: C.white }}>
+      <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <Label>Industry Examples</Label>
+          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>What AI automation makes possible.</h1>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85, maxWidth: 560, marginBottom: 18 }}>
+            How organisations across industries are using AI and workflow automation to replace manual work with reliable systems. These are industry examples — drawn from publicly reported case studies and representative scenarios — shown to illustrate what&apos;s achievable. Filter by industry below.
+          </p>
+          <p style={{ fontSize: 12.5, color: C.mutedLight, lineHeight: 1.7, maxWidth: 560, marginBottom: 28, fontStyle: "italic" }}>
+            Examples are presented for illustration only and do not represent Avantgarde client engagements. Company names and outcomes belong to the cited sources.
+          </p>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {INDUSTRIES.map(s => (
+              <button key={s} onClick={() => setIndustry(s)} style={{
+                padding: "8px 18px", fontSize: 12, cursor: "pointer",
+                fontFamily: FONT_BODY, letterSpacing: "0.06em", textTransform: "uppercase",
+                borderRadius: 20,
+                border: `1.5px solid ${industry === s ? C.orange : C.borderMid}`,
+                background: industry === s ? C.orangePale : "none",
+                color: industry === s ? C.orange : C.muted,
+                transition: "all 0.2s",
+              }}>{s}</button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: isMobile ? "2rem 1.25rem 3.5rem" : "3rem 2rem 5rem" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))", gap: 22 }}>
+          {filtered.map(cs => (
+            <CaseStudyCard key={cs.slug} cs={cs} openCase={openCase} isMobile={isMobile} />
+          ))}
+        </div>
+      </section>
+
+      {/* CTA banner */}
+      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5rem 2rem", background: C.inkBg, textAlign: "center" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto" }}>
+          <Heading size="2.4rem" color={C.onAccent} style={{ marginBottom: 16 }}>Could your firm see results like these?</Heading>
+          <p style={{ fontSize: 15, color: "#B8BCC4", lineHeight: 1.85, marginBottom: 28 }}>
+            Send us one workflow and we&apos;ll tell you what&apos;s automatable, how many hours it saves, and what it would take to build — within 48 hours, free.
+          </p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <Btn onClick={() => setPage("Demo")} size="lg" full={isMobile}>Get a free audit</Btn>
+            <Btn onClick={() => setPage("Contact")} variant="ghost" size="lg" full={isMobile}>Book a call</Btn>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── CASE STUDY DETAIL (TEMPLATE) ───────────────────────────────────────────────
+function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
+  const isMobile = useIsMobile();
+  const cs = getCaseStudy(caseSlug);
+  const related = getRelated(caseSlug);
+
+  if (!cs) {
+    return (
+      <div style={{ background: C.white, padding: isMobile ? "4rem 1.25rem" : "6rem 2rem", textAlign: "center" }}>
+        <Heading style={{ marginBottom: 16 }}>Case study not found</Heading>
+        <p style={{ fontSize: 15, color: C.muted, marginBottom: 28 }}>This case study may have moved or been renamed.</p>
+        <Btn onClick={() => setPage("CaseStudies")}>← Back to all case studies</Btn>
+      </div>
+    );
+  }
+
+  const Block = ({ label, title, children }) => (
+    <div style={{ marginBottom: isMobile ? 36 : 52 }}>
+      <Label>{label}</Label>
+      <Heading size="1.9rem" style={{ marginBottom: 16 }}>{title}</Heading>
+      {children}
+    </div>
+  );
+
+  return (
+    <div style={{ background: C.white }}>
+      {/* Hero */}
+      <section style={{ padding: isMobile ? "2.5rem 1.25rem 2rem" : "3.5rem 2rem 2.5rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <button onClick={() => setPage("CaseStudies")} style={{
+            background: "none", border: "none", cursor: "pointer", padding: 0,
+            fontFamily: FONT_BODY, fontSize: 12, color: C.muted, letterSpacing: "0.06em",
+            textTransform: "uppercase", marginBottom: 20,
+          }}>← All case studies</button>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
+            <Badge>{cs.industry}</Badge>
+            <span style={{ fontSize: 12, color: C.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>{cs.client}</span>
+            <span style={{
+              fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+              padding: "3px 9px", borderRadius: 2, color: C.muted, background: C.creamDark, border: `1px solid ${C.border}`,
+            }}>{cs.source ? "Industry example" : "Illustrative example"}</span>
+          </div>
+          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "1.9rem" : "clamp(2rem, 4vw, 3rem)", color: C.ink, lineHeight: 1.18, marginBottom: 16 }}>{cs.title}</h1>
+          <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.8, maxWidth: 640 }}>{cs.hero.tagline}</p>
+        </div>
+      </section>
+
+      {/* Hero image */}
+      <section style={{ padding: isMobile ? "0" : "0", background: C.cream }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <img src={cs.image} alt={`${cs.client} — ${cs.title}`} style={{
+            width: "100%", aspectRatio: isMobile ? "16 / 10" : "21 / 8",
+            objectFit: "cover", display: "block",
+          }} />
+        </div>
+      </section>
+
+      {/* Body */}
+      <section style={{ padding: isMobile ? "3rem 1.25rem" : "4.5rem 2rem" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <Block label="The Problem" title="What was holding them back">
+            <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.9 }}>{cs.problem}</p>
+          </Block>
+
+          <Block label="The Solution" title="How it was solved">
+            <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.9 }}>{cs.solution}</p>
+          </Block>
+
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
+            {cs.source ? (
+              <>
+                Industry example. Company name and reported outcomes belong to the source:{" "}
+                <a href={cs.source.url} target="_blank" rel="noopener noreferrer" style={{ color: C.orange, textDecoration: "none" }}>
+                  {cs.source.label}
+                </a>
+                . Presented for illustration; not an Avantgarde client engagement.
+              </>
+            ) : (
+              "Illustrative example — a representative scenario based on common automation outcomes. It does not depict a specific company or an Avantgarde client engagement."
+            )}
+          </p>
+        </div>
+      </section>
+
+      {/* Results */}
+      <section style={{ padding: isMobile ? "3rem 1.25rem" : "4rem 2rem", background: C.creamDark, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: isMobile ? 28 : 40 }}>
+            <Label>The Results</Label>
+            <Heading size="2.1rem">Measurable outcomes</Heading>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: isMobile ? 14 : 20 }}>
+            {cs.results.map(r => (
+              <div key={r.label} style={{
+                background: C.cream, border: `1px solid ${C.border}`, borderRadius: 12,
+                borderTop: `3px solid ${C.orange}`, padding: isMobile ? "1.25rem 1rem" : "1.75rem 1.5rem", textAlign: "center",
+              }}>
+                <div style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "1.6rem" : "2.1rem", color: C.orange, marginBottom: 8 }}>{r.metric}</div>
+                <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.5 }}>{r.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Demo video */}
+      <section style={{ padding: isMobile ? "3rem 1.25rem" : "4.5rem 2rem" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <Label>Demo Video</Label>
+            <Heading size="2.1rem">See the automation in action</Heading>
+          </div>
+          {cs.demoVideo ? (
+            <div style={{ position: "relative", aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden", border: `1px solid ${C.border}` }}>
+              <iframe
+                src={cs.demoVideo}
+                title={`${cs.client} automation demo`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setPage("Demo")}
+              aria-label="Watch automation demos"
+              style={{
+                position: "relative", display: "block", width: "100%", padding: 0,
+                aspectRatio: "16 / 9", borderRadius: 12, overflow: "hidden",
+                border: `1px solid ${C.border}`, cursor: "pointer", background: C.creamDark,
+              }}
+            >
+              <img src={cs.poster} alt={`${cs.client} automation demo preview`} style={{
+                width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "brightness(0.82)",
+              }} />
+              <span style={{
+                position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+                width: 68, height: 68, borderRadius: "50%", background: C.orange,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 8px 28px rgba(0,0,0,0.25)",
+              }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill={C.onAccent} aria-hidden="true">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span style={{
+                position: "absolute", bottom: 16, left: 16,
+                background: "rgba(17,17,17,0.7)", color: "#FFFFFF",
+                fontSize: 12, padding: "6px 12px", borderRadius: 4, letterSpacing: "0.04em",
+              }}>Watch live automation demos →</span>
+            </button>
+          )}
+        </div>
+      </section>
+
+      {/* Workflow diagram */}
+      <section style={{ padding: isMobile ? "3rem 1.25rem" : "4.5rem 2rem", background: C.cream, borderTop: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: isMobile ? 28 : 44 }}>
+            <Label>Workflow Diagram</Label>
+            <Heading size="2.1rem">How the automation flows</Heading>
+          </div>
+          <div style={{
+            display: "flex", flexDirection: isMobile ? "column" : "row",
+            alignItems: "stretch", justifyContent: "center", gap: 0,
+          }}>
+            {cs.workflow.map((step, i) => (
+              <div key={step.label} style={{
+                display: "flex", flexDirection: isMobile ? "row" : "column",
+                alignItems: "center", flex: 1,
+              }}>
+                <div style={{
+                  background: C.white, border: `1px solid ${C.border}`, borderTop: `3px solid ${C.orange}`,
+                  borderRadius: 12, padding: "1.25rem", textAlign: isMobile ? "left" : "center",
+                  width: "100%", height: "100%", display: "flex", flexDirection: "column",
+                  gap: 8, alignItems: isMobile ? "flex-start" : "center",
+                }}>
+                  <div style={{
+                    width: 34, height: 34, borderRadius: "50%", background: C.orangePale,
+                    border: `1px solid ${C.orangeBorder}`, color: C.orange,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: FONT_DISPLAY, fontSize: 15, flexShrink: 0,
+                  }}>{i + 1}</div>
+                  <h4 style={{ fontFamily: FONT_DISPLAY, fontSize: "1rem", color: C.ink, lineHeight: 1.3 }}>{step.label}</h4>
+                  <p style={{ fontSize: 12.5, color: C.muted, lineHeight: 1.65 }}>{step.desc}</p>
+                </div>
+                {i < cs.workflow.length - 1 && (
+                  <div aria-hidden="true" style={{
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: C.orange, padding: isMobile ? "8px 0" : "0 6px",
+                    fontSize: 20, flexShrink: 0,
+                  }}>{isMobile ? "↓" : "→"}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related case studies */}
+      {related.length > 0 && (
+        <section style={{ padding: isMobile ? "3rem 1.25rem" : "4.5rem 2rem", borderTop: `1px solid ${C.border}` }}>
+          <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+            <div style={{ marginBottom: isMobile ? 24 : 36 }}>
+              <Label>Related</Label>
+              <Heading size="2.1rem">More case studies</Heading>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(320px, 1fr))", gap: 22 }}>
+              {related.map(rc => (
+                <CaseStudyCard key={rc.slug} cs={rc} openCase={openCase} isMobile={isMobile} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5rem 2rem", background: C.inkBg, textAlign: "center" }}>
+        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <Heading size="2.4rem" color={C.onAccent} style={{ marginBottom: 16 }}>Want results like these?</Heading>
+          <p style={{ fontSize: 15, color: "#B8BCC4", lineHeight: 1.85, marginBottom: 28 }}>
+            Start with a free workflow audit. We&apos;ll show you exactly what&apos;s automatable and the hours it returns to your team.
+          </p>
+          <Btn onClick={() => setPage("Demo")} size="lg" full={isMobile}>Get a free audit</Btn>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("Home");
-  const pages = { Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Contact: ContactPage };
+  const [caseSlug, setCaseSlug] = useState(null);
+  const { theme, toggleTheme } = useTheme();
+  const pages = {
+    Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Contact: ContactPage,
+    CaseStudies: CaseStudiesPage, CaseStudyDetail: CaseStudyDetailPage,
+  };
   const PageComponent = pages[page] || HomePage;
 
+  const openCase = (slug) => { setCaseSlug(slug); setPage("CaseStudyDetail"); };
+
   useEffect(() => {
-    applySEO(page);
+    if (page === "CaseStudyDetail") {
+      const cs = getCaseStudy(caseSlug);
+      applySEO("CaseStudies", cs ? {
+        title: `${cs.title} — ${cs.client} | Avantgarde Consulting Group`,
+        description: cs.summary,
+        og_title: `${cs.client}: ${cs.title}`,
+        og_description: cs.summary,
+        canonical: `https://meetavantgarde.com/case-studies/${cs.slug}`,
+      } : undefined);
+    } else {
+      applySEO(page);
+    }
     window.scrollTo(0, 0);
-  }, [page]);
+  }, [page, caseSlug]);
 
   return (
-    <div style={{ fontFamily: FONT_BODY, background: C.white, minHeight: "100vh" }}>
-      <Nav page={page} setPage={setPage} />
-      <main><PageComponent setPage={setPage} /></main>
+    <div style={{ fontFamily: FONT_BODY, background: C.cream, color: C.ink, minHeight: "100vh", transition: "background 0.3s ease, color 0.3s ease" }}>
+      <Nav page={page} setPage={setPage} theme={theme} toggleTheme={toggleTheme} />
+      <main><PageComponent setPage={setPage} openCase={openCase} caseSlug={caseSlug} /></main>
       <Footer setPage={setPage} />
     </div>
   );
