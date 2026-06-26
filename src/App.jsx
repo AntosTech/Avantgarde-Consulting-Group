@@ -1322,6 +1322,15 @@ function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
           <Block label="The Solution" title="What we built">
             <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.9 }}>{cs.solution}</p>
           </Block>
+
+          {cs.source && (
+            <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
+              Source:{" "}
+              <a href={cs.source.url} target="_blank" rel="noopener noreferrer" style={{ color: C.orange, textDecoration: "none" }}>
+                {cs.source.label}
+              </a>
+            </p>
+          )}
         </div>
       </section>
 

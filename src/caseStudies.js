@@ -38,6 +38,42 @@ export const CASE_STUDIES = [
     related: ["boutique-law-practice", "vocational-training-institute"],
   },
   {
+    slug: "document-processing-pipeline",
+    title: "Cutting document processing time by 75% with an AI pipeline",
+    client: "Professional Services Firm",
+    industry: "Professional Services",
+    image: "/cases/document-ai.png",
+    summary:
+      "A mid-sized professional services firm automated its entire document intake and extraction workflow with an AI pipeline — slashing cycle time and freeing senior staff for higher-value work.",
+    cardMetric: "75% faster processing",
+    hero: {
+      tagline: "How an AI extraction pipeline turned manual data entry into exception handling.",
+    },
+    problem:
+      "A mid-sized professional services firm handled a high volume of documents that had to be read, classified, and re-keyed into downstream systems by hand. The manual process was slow, extraction errors ran around 8%, and senior staff spent hours each week on low-value data entry instead of client work. As volume grew, the bottleneck only got worse.",
+    solution:
+      "We built an AI document intake and extraction pipeline that ingests documents, classifies them, extracts the relevant fields, and routes the structured data into the firm's downstream systems automatically. Low-confidence extractions are flagged for human review, so senior staff shifted from re-keying every document to simply handling exceptions — the small share of cases the pipeline isn't sure about.",
+    results: [
+      { metric: "75%", label: "Reduction in processing cycle time" },
+      { metric: "30+ hrs", label: "Saved per week" },
+      { metric: "8% → <2%", label: "Extraction error rate" },
+      { metric: "Exceptions", label: "Senior staff focus, not data entry" },
+    ],
+    demoVideo: null,
+    poster: "/cases/document-ai.png",
+    workflow: [
+      { label: "Documents ingested", desc: "Incoming documents enter the pipeline automatically." },
+      { label: "Classified & extracted", desc: "AI identifies document type and pulls the relevant fields." },
+      { label: "Validation & routing", desc: "Structured data is validated and routed to downstream systems." },
+      { label: "Exception handling", desc: "Low-confidence cases are flagged for senior staff review." },
+    ],
+    source: {
+      label: "aiadvocate.org — Document Processing Automation",
+      url: "https://aiadvocate.org/case-studies/document-processing-automation",
+    },
+    related: ["regional-accounting-firm", "boutique-law-practice"],
+  },
+  {
     slug: "boutique-law-practice",
     title: "Automating matter intake and conflict checks",
     client: "Boutique Law Practice",
