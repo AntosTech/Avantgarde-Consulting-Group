@@ -2,7 +2,7 @@
 // Edit this file to add, remove, or update case studies. Each entry powers both
 // the Case Studies grid and the individual Case Study template page.
 
-export const INDUSTRIES = ["All", "Professional Services", "Education", "Government"];
+export const INDUSTRIES = ["All", "Professional Services", "Financial Services", "Education", "Government"];
 
 export const CASE_STUDIES = [
   {
@@ -200,6 +200,42 @@ export const CASE_STUDIES = [
       { label: "Decision & audit log", desc: "Outcomes are recorded to an immutable, FOIA-ready audit trail." },
     ],
     related: ["regional-accounting-firm", "boutique-law-practice"],
+  },
+  {
+    slug: "credit-union-fraud-detection",
+    title: "Detecting check fraud in real time with agentic AI",
+    client: "Suncoast Credit Union",
+    industry: "Financial Services",
+    image: "/cases/fraud-detection.png",
+    summary:
+      "Suncoast Credit Union deployed agentic automation to analyse checks and flag fraud as it happens — turning slow, manual reviews into scalable real-time risk analysis.",
+    cardMetric: "Real-time fraud detection",
+    hero: {
+      tagline: "How agentic AI turned check fraud review into real-time, scalable risk analysis.",
+    },
+    problem:
+      "Check fraud moves fast, but manual review couldn't keep up. Reviewing checks for signs of fraud by hand was slow and didn't scale with volume, leaving a window in which fraudulent checks could clear before anyone caught them — driving avoidable losses and putting members at risk.",
+    solution:
+      "Suncoast Credit Union deployed agentic automation that analyses each check and surrounding transaction signals the moment it arrives, scoring it for anomalies and flagging suspicious activity in real time. The system scales with volume and surfaces high-risk cases to fraud teams instantly, so intervention happens before losses are realised rather than after.",
+    results: [
+      { metric: "Real-time", label: "Fraud detection as checks arrive" },
+      { metric: "Loss prevention", label: "Caught before funds clear" },
+      { metric: "Scalable", label: "Keeps pace with rising volume" },
+      { metric: "Anomaly scoring", label: "Continuous, automated risk analysis" },
+    ],
+    demoVideo: null,
+    poster: "/cases/fraud-detection.png",
+    workflow: [
+      { label: "Check ingested", desc: "Each check and its transaction signals enter the pipeline in real time." },
+      { label: "AI analysis", desc: "Agentic automation reads the document and scores it for anomalies." },
+      { label: "Risk flagged", desc: "Suspicious activity is surfaced to fraud teams instantly." },
+      { label: "Intervention", desc: "High-risk cases are stopped before funds clear, preventing losses." },
+    ],
+    source: {
+      label: "UiPath — Suncoast Credit Union",
+      url: "https://www.uipath.com/resources/automation-case-studies/suncoast-credit-union",
+    },
+    related: ["document-processing-pipeline", "regional-accounting-firm"],
   },
 ];
 
