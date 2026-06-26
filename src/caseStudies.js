@@ -2,7 +2,7 @@
 // Edit this file to add, remove, or update case studies. Each entry powers both
 // the Case Studies grid and the individual Case Study template page.
 
-export const INDUSTRIES = ["All", "Professional Services", "Education"];
+export const INDUSTRIES = ["All", "Professional Services", "Education", "Government"];
 
 export const CASE_STUDIES = [
   {
@@ -132,6 +132,38 @@ export const CASE_STUDIES = [
       { label: "Review & submit", desc: "Staff approve a validated report instead of building one." },
     ],
     related: ["online-course-academy", "boutique-law-practice"],
+  },
+  {
+    slug: "federal-permitting-agency",
+    title: "Cutting permit application processing from 30 days to 5",
+    client: "US Government Agency",
+    industry: "Government",
+    image: "/cases/government.png",
+    summary:
+      "A federal permitting office automated intake, eligibility screening, and inter-department routing — clearing a chronic backlog while keeping a full compliance audit trail.",
+    cardMetric: "83% faster processing",
+    hero: {
+      tagline: "How a federal permitting office cleared its backlog without adding headcount.",
+    },
+    problem:
+      "A federal permitting agency processed thousands of applications a year almost entirely on paper and email. Caseworkers manually checked eligibility, re-entered applicant data across legacy systems, and routed files between departments by hand. Average processing took 30 days, the backlog kept growing, and FOIA-ready record-keeping was inconsistent — creating both public-service and accountability pressure.",
+    solution:
+      "Working within the agency's security and accessibility requirements, we built a Section 508-compliant intake form that validates applications up front, automatically screens eligibility against published rules, and routes each case to the right department with deadline tracking. Every action is logged to an immutable audit trail, and status updates are sent to applicants automatically — without exposing any system to the public internet.",
+    results: [
+      { metric: "83%", label: "Reduction in processing time" },
+      { metric: "30 → 5 days", label: "Average application turnaround" },
+      { metric: "100%", label: "Actions captured for audit & FOIA" },
+      { metric: "0", label: "Backlog cases past SLA since launch" },
+    ],
+    demoVideo: null,
+    poster: "/cases/government.png",
+    workflow: [
+      { label: "Application submitted", desc: "A 508-compliant form validates submissions before they enter the queue." },
+      { label: "Eligibility screened", desc: "Applications are checked automatically against published rules." },
+      { label: "Routed to department", desc: "Each case is assigned to the right team with deadline tracking." },
+      { label: "Decision & audit log", desc: "Outcomes are recorded to an immutable, FOIA-ready audit trail." },
+    ],
+    related: ["regional-accounting-firm", "boutique-law-practice"],
   },
 ];
 
