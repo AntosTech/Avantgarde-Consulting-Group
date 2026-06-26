@@ -1213,10 +1213,13 @@ function CaseStudiesPage({ setPage, openCase }) {
     <div style={{ background: C.white }}>
       <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <Label>Case Studies</Label>
-          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>Real workflows, real hours saved.</h1>
-          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85, maxWidth: 540, marginBottom: 28 }}>
-            A look at how we&apos;ve helped professional service firms and educational organisations replace manual work with reliable automation. Filter by industry below.
+          <Label>Industry Examples</Label>
+          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>What AI automation makes possible.</h1>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85, maxWidth: 560, marginBottom: 18 }}>
+            How organisations across industries are using AI and workflow automation to replace manual work with reliable systems. These are industry examples — drawn from publicly reported case studies and representative scenarios — shown to illustrate what&apos;s achievable. Filter by industry below.
+          </p>
+          <p style={{ fontSize: 12.5, color: C.mutedLight, lineHeight: 1.7, maxWidth: 560, marginBottom: 28, fontStyle: "italic" }}>
+            Examples are presented for illustration only and do not represent Avantgarde client engagements. Company names and outcomes belong to the cited sources.
           </p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {INDUSTRIES.map(s => (
@@ -1245,7 +1248,7 @@ function CaseStudiesPage({ setPage, openCase }) {
       {/* CTA banner */}
       <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5rem 2rem", background: C.inkBg, textAlign: "center" }}>
         <div style={{ maxWidth: 620, margin: "0 auto" }}>
-          <Heading size="2.4rem" color={C.onAccent} style={{ marginBottom: 16 }}>Could your firm be the next case study?</Heading>
+          <Heading size="2.4rem" color={C.onAccent} style={{ marginBottom: 16 }}>Could your firm see results like these?</Heading>
           <p style={{ fontSize: 15, color: "#B8BCC4", lineHeight: 1.85, marginBottom: 28 }}>
             Send us one workflow and we&apos;ll tell you what&apos;s automatable, how many hours it saves, and what it would take to build — within 48 hours, free.
           </p>
@@ -1296,6 +1299,10 @@ function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
             <Badge>{cs.industry}</Badge>
             <span style={{ fontSize: 12, color: C.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>{cs.client}</span>
+            <span style={{
+              fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase",
+              padding: "3px 9px", borderRadius: 2, color: C.muted, background: C.creamDark, border: `1px solid ${C.border}`,
+            }}>{cs.source ? "Industry example" : "Illustrative example"}</span>
           </div>
           <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "1.9rem" : "clamp(2rem, 4vw, 3rem)", color: C.ink, lineHeight: 1.18, marginBottom: 16 }}>{cs.title}</h1>
           <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.8, maxWidth: 640 }}>{cs.hero.tagline}</p>
@@ -1319,18 +1326,23 @@ function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
             <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.9 }}>{cs.problem}</p>
           </Block>
 
-          <Block label="The Solution" title="What we built">
+          <Block label="The Solution" title="How it was solved">
             <p style={{ fontSize: 16, color: C.inkMid, lineHeight: 1.9 }}>{cs.solution}</p>
           </Block>
 
-          {cs.source && (
-            <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
-              Source:{" "}
-              <a href={cs.source.url} target="_blank" rel="noopener noreferrer" style={{ color: C.orange, textDecoration: "none" }}>
-                {cs.source.label}
-              </a>
-            </p>
-          )}
+          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
+            {cs.source ? (
+              <>
+                Industry example. Company name and reported outcomes belong to the source:{" "}
+                <a href={cs.source.url} target="_blank" rel="noopener noreferrer" style={{ color: C.orange, textDecoration: "none" }}>
+                  {cs.source.label}
+                </a>
+                . Presented for illustration; not an Avantgarde client engagement.
+              </>
+            ) : (
+              "Illustrative example — a representative scenario based on common automation outcomes. It does not depict a specific company or an Avantgarde client engagement."
+            )}
+          </p>
         </div>
       </section>
 

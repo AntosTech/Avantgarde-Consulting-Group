@@ -20,7 +20,7 @@ export const CASE_STUDIES = [
     problem:
       "New client onboarding was entirely manual. Every engagement required staff to email document checklists, chase missing files, re-key data into three separate systems, and manually create engagement folders. Partners estimated each onboarding consumed six business days of elapsed time and roughly four hours of billable staff effort — time that scaled painfully during tax season.",
     solution:
-      "We mapped the end-to-end intake journey and rebuilt it as a single automated workflow. A branded intake form feeds a secure document portal with automatic reminders, validates and routes data into their practice management and cloud storage systems, and provisions engagement folders from a template — with a built-in audit trail for compliance.",
+      "In this scenario, the end-to-end intake journey is rebuilt as a single automated workflow. A branded intake form feeds a secure document portal with automatic reminders, validates and routes data into practice-management and cloud-storage systems, and provisions engagement folders from a template — with a built-in audit trail for compliance.",
     results: [
       { metric: "92%", label: "Reduction in onboarding time" },
       { metric: "14 hrs", label: "Saved per manager, weekly" },
@@ -52,7 +52,7 @@ export const CASE_STUDIES = [
     problem:
       "A mid-sized professional services firm handled a high volume of documents that had to be read, classified, and re-keyed into downstream systems by hand. The manual process was slow, extraction errors ran around 8%, and senior staff spent hours each week on low-value data entry instead of client work. As volume grew, the bottleneck only got worse.",
     solution:
-      "We built an AI document intake and extraction pipeline that ingests documents, classifies them, extracts the relevant fields, and routes the structured data into the firm's downstream systems automatically. Low-confidence extractions are flagged for human review, so senior staff shifted from re-keying every document to simply handling exceptions — the small share of cases the pipeline isn't sure about.",
+      "The firm deployed an AI document intake and extraction pipeline that ingests documents, classifies them, extracts the relevant fields, and routes the structured data into downstream systems automatically. Low-confidence extractions are flagged for human review, so senior staff shifted from re-keying every document to simply handling exceptions — the small share of cases the pipeline isn't sure about.",
     results: [
       { metric: "75%", label: "Reduction in processing cycle time" },
       { metric: "30+ hrs", label: "Saved per week" },
@@ -88,7 +88,7 @@ export const CASE_STUDIES = [
     problem:
       "Matter intake depended on a single paralegal manually triaging enquiries, running conflict checks by searching old spreadsheets, and copy-pasting engagement letters. Turnaround averaged 48 hours, conflict checks were inconsistent, and the firm had no reliable record of who reviewed what — a real compliance exposure.",
     solution:
-      "We built an intake workflow that captures enquiries through a single form, automatically runs conflict checks against the firm's matter database, generates a pre-filled engagement letter for attorney review, and logs every decision. Approvals happen with one click, and the entire trail is timestamped.",
+      "In this scenario, an intake workflow captures enquiries through a single form, automatically runs conflict checks against the firm's matter database, generates a pre-filled engagement letter for attorney review, and logs every decision. Approvals happen with one click, and the entire trail is timestamped.",
     results: [
       { metric: "Same day", label: "Average intake turnaround" },
       { metric: "100%", label: "Conflict checks logged" },
@@ -120,7 +120,7 @@ export const CASE_STUDIES = [
     problem:
       "Enrollment growth outpaced the team. Staff manually confirmed payments, created LMS accounts, sent welcome sequences, and reconciled revenue across platforms. Errors crept in, learners waited hours for access, and the founder spent evenings fixing mismatched records instead of building curriculum.",
     solution:
-      "We connected their checkout, learning platform, and finance tools into one automated enrollment flow. Successful payments instantly provision learner accounts, trigger a personalised welcome journey, and reconcile revenue automatically — with exceptions flagged for human review rather than requiring manual processing of every record.",
+      "In this scenario, the checkout, learning platform, and finance tools are connected into one automated enrollment flow. Successful payments instantly provision learner accounts, trigger a personalised welcome journey, and reconcile revenue automatically — with exceptions flagged for human review rather than requiring manual processing of every record.",
     results: [
       { metric: "5x", label: "Enrollment volume handled" },
       { metric: "< 2 min", label: "Time to course access" },
@@ -152,7 +152,7 @@ export const CASE_STUDIES = [
     problem:
       "Monthly funding and accreditation reports were assembled by hand from attendance sheets, the LMS, and spreadsheets. The process took three full days, was prone to transcription errors, and put the institute's funding at risk whenever a deadline slipped. Cohort scheduling was equally manual and error-prone.",
     solution:
-      "We automated attendance capture and cohort scheduling, then built a reporting workflow that compiles compliant funding and accreditation reports on demand. Staff now review and approve a generated report rather than building one from scratch, with data validated against funding rules before submission.",
+      "In this scenario, attendance capture and cohort scheduling are automated, and a reporting workflow compiles compliant funding and accreditation reports on demand. Staff review and approve a generated report rather than building one from scratch, with data validated against funding rules before submission.",
     results: [
       { metric: "20 min", label: "Monthly reporting (was 3 days)" },
       { metric: "100%", label: "On-time compliance submissions" },
@@ -184,7 +184,7 @@ export const CASE_STUDIES = [
     problem:
       "A federal permitting agency processed thousands of applications a year almost entirely on paper and email. Caseworkers manually checked eligibility, re-entered applicant data across legacy systems, and routed files between departments by hand. Average processing took 30 days, the backlog kept growing, and FOIA-ready record-keeping was inconsistent — creating both public-service and accountability pressure.",
     solution:
-      "Working within the agency's security and accessibility requirements, we built a Section 508-compliant intake form that validates applications up front, automatically screens eligibility against published rules, and routes each case to the right department with deadline tracking. Every action is logged to an immutable audit trail, and status updates are sent to applicants automatically — without exposing any system to the public internet.",
+      "Working within strict security and accessibility requirements, this scenario uses a Section 508-compliant intake form that validates applications up front, automatically screens eligibility against published rules, and routes each case to the right department with deadline tracking. Every action is logged to an immutable audit trail, and status updates are sent to applicants automatically — without exposing any system to the public internet.",
     results: [
       { metric: "83%", label: "Reduction in processing time" },
       { metric: "30 → 5 days", label: "Average application turnaround" },
