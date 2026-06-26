@@ -3,21 +3,25 @@ import { applySEO } from "./seo.js";
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 const C = {
-  white:       "#FFFFFF",
-  cream:       "#FAFAF8",
-  creamDark:   "#F3F1ED",
-  ink:         "#1A1A1A",
-  inkSoft:     "#2E2E2E",
-  inkMid:      "#4A4A4A",
-  muted:       "#7A7A7A",
-  mutedLight:  "#A0A0A0",
-  border:      "#E8E5E0",
-  borderMid:   "#D8D4CE",
+  white:       "var(--c-white)",
+  cream:       "var(--c-cream)",
+  creamDark:   "var(--c-cream-dark)",
+  ink:         "var(--c-ink)",
+  inkSoft:     "var(--c-ink-soft)",
+  inkMid:      "var(--c-ink-mid)",
+  muted:       "var(--c-muted)",
+  mutedLight:  "var(--c-muted-light)",
+  border:      "var(--c-border)",
+  borderMid:   "var(--c-border-mid)",
   orange:      "#E8870A",
   orangeLight: "#F5A535",
-  orangePale:  "#FEF3E2",
+  orangePale:  "var(--c-orange-pale)",
   orangeBorder:"rgba(232,135,10,0.25)",
-  black:       "#111111",
+  black:       "var(--c-black)",
+  // Always-light text that sits on the orange/dark accent (never inverts)
+  onAccent:    "#FFFFFF",
+  // Intentional dark contrast bands (footer/CTA) that stay dark in both themes
+  inkBg:       "var(--c-ink-bg)",
 };
 
 const FONT_DISPLAY = "'DM Serif Display', Georgia, serif";
@@ -34,6 +38,60 @@ function useIsMobile(breakpoint = 768) {
     return () => window.removeEventListener("resize", handler);
   }, [breakpoint]);
   return isMobile;
+}
+
+// ─── THEME HOOK ───────────────────────────────────────────────────────────────
+function getInitialTheme() {
+  if (typeof window === "undefined") return "light";
+  const stored = window.localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+  // Fall back to the value the inline boot script already applied, then OS pref
+  const current = document.documentElement.dataset.theme;
+  if (current === "light" || current === "dark") return current;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function useTheme() {
+  const [theme, setTheme] = useState(getInitialTheme);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { window.localStorage.setItem("theme", theme); } catch (e) { /* ignore */ }
+  }, [theme]);
+  const toggleTheme = () => setTheme(t => (t === "dark" ? "light" : "dark"));
+  return { theme, toggleTheme };
+}
+
+// ─── THEME TOGGLE ─────────────────────────────────────────────────────────────
+function ThemeToggle({ theme, toggleTheme }) {
+  const isDark = theme === "dark";
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      style={{
+        background: "none", border: `1px solid ${C.border}`,
+        width: 38, height: 38, borderRadius: 8, cursor: "pointer",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        color: C.inkMid, flexShrink: 0, transition: "color 0.2s, border-color 0.2s",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.color = C.orange; e.currentTarget.style.borderColor = C.orange; }}
+      onMouseLeave={e => { e.currentTarget.style.color = C.inkMid; e.currentTarget.style.borderColor = C.border; }}
+    >
+      {isDark ? (
+        // Sun
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        // Moon
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
 }
 
 // ─── SHARED COMPONENTS ────────────────────────────────────────────────────────
@@ -71,9 +129,9 @@ function Heading({ children, size = "2.4rem", color = C.ink, style: s = {} }) {
 function Btn({ children, onClick, variant = "primary", size = "md", disabled = false, full = false }) {
   const pad = size === "sm" ? "8px 18px" : size === "lg" ? "14px 32px" : "11px 26px";
   const styles = {
-    primary: { background: C.orange,   color: C.white,  border: "none" },
+    primary: { background: C.orange,   color: C.onAccent,  border: "none" },
     ghost:   { background: "none",     color: C.orange, border: `1.5px solid ${C.orange}` },
-    dark:    { background: C.ink,      color: C.white,  border: "none" },
+    dark:    { background: C.inkBg,    color: C.onAccent,  border: "none" },
     outline: { background: "none",     color: C.inkMid, border: `1.5px solid ${C.borderMid}` },
   };
   return (
@@ -96,7 +154,7 @@ function Dot() {
 }
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-function Nav({ page, setPage }) {
+function Nav({ page, setPage, theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   const links = ["About", "Services", "Demo", "Contact"];
@@ -140,12 +198,15 @@ function Nav({ page, setPage }) {
                 paddingBottom: 2, transition: "color 0.2s",
               }}>{l}</button>
             ))}
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <Btn onClick={() => navigate("Contact")} size="sm">Book a Call</Btn>
           </div>
         )}
 
         {/* Mobile hamburger */}
         {isMobile && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <button onClick={() => setMenuOpen(o => !o)} style={{
             background: "none", border: `1px solid ${C.border}`,
             padding: "8px 10px", borderRadius: 4, cursor: "pointer",
@@ -163,6 +224,7 @@ function Nav({ page, setPage }) {
               }} />
             ))}
           </button>
+          </div>
         )}
       </div>
 
@@ -197,7 +259,7 @@ function Nav({ page, setPage }) {
 function Footer({ setPage }) {
   const isMobile = useIsMobile();
   return (
-    <footer style={{ background: C.black, color: C.white, padding: "3.5rem 1.5rem 2rem" }}>
+    <footer style={{ background: C.black, color: C.onAccent, padding: "3.5rem 1.5rem 2rem" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{
           display: "grid",
@@ -244,7 +306,7 @@ function Footer({ setPage }) {
                     fontSize: 13, color: "#9A9A9E", marginBottom: 10, lineHeight: 1.5,
                     cursor: col.label === "Pages" ? "pointer" : "default",
                   }}
-                    onMouseEnter={e => col.label === "Pages" && (e.target.style.color = C.white)}
+                    onMouseEnter={e => col.label === "Pages" && (e.target.style.color = C.onAccent)}
                     onMouseLeave={e => col.label === "Pages" && (e.target.style.color = "#9A9A9E")}
                   >{item}</p>
                 ))}
@@ -338,8 +400,8 @@ function HomePage({ setPage }) {
               padding: "14px 18px", display: "flex",
               alignItems: "center", justifyContent: "space-between", marginTop: 4,
             }}>
-              <span style={{ fontSize: 13, color: C.white, fontWeight: 500 }}>Average time saved per week</span>
-              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: C.white }}>12+ hrs</span>
+              <span style={{ fontSize: 13, color: C.onAccent, fontWeight: 500 }}>Average time saved per week</span>
+              <span style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: C.onAccent }}>12+ hrs</span>
             </div>
           </div>
         </div>
@@ -441,9 +503,9 @@ function HomePage({ setPage }) {
       </section>
 
       {/* BOTTOM CTA */}
-      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5.5rem 2rem", background: C.ink, textAlign: "center" }}>
+      <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5.5rem 2rem", background: C.inkBg, textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <Heading size="2.6rem" color={C.white} style={{ marginBottom: 18 }}>
+          <Heading size="2.6rem" color={C.onAccent} style={{ marginBottom: 18 }}>
             Not sure where automation fits in your business?
           </Heading>
           <p style={{ fontSize: 15, color: "#9A9A9E", lineHeight: 1.9, marginBottom: 32 }}>
@@ -561,7 +623,7 @@ function AboutPage({ setPage }) {
       </section>
 
       {/* COMPANY PROFILE */}
-      <section style={{ padding: isMobile ? "2rem 1.25rem" : "2.5rem 2rem", background: C.ink }}>
+      <section style={{ padding: isMobile ? "2rem 1.25rem" : "2.5rem 2rem", background: C.inkBg }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: isMobile ? "flex-start" : "center", justifyContent: "space-between", gap: 20 }}>
           <div>
             <Label>Company profile</Label>
@@ -660,7 +722,7 @@ function ServicesPage({ setPage }) {
               {s.featured && (
                 <div style={{
                   position: "absolute", top: -1, right: 16,
-                  background: C.orange, color: C.white,
+                  background: C.orange, color: C.onAccent,
                   fontSize: 10, fontWeight: 600, padding: "3px 12px",
                   letterSpacing: "0.08em", textTransform: "uppercase",
                 }}>Most requested</div>
@@ -803,7 +865,7 @@ function DemoPage() {
               <div style={{ display: "flex", gap: 10 }}>
                 <button onClick={runDemo} disabled={running} style={{
                   background: running ? C.borderMid : C.orange,
-                  color: running ? C.muted : C.white,
+                  color: running ? C.muted : C.onAccent,
                   border: "none", padding: "11px 20px", borderRadius: 6,
                   fontSize: 13, fontWeight: 600, cursor: running ? "not-allowed" : "pointer",
                   fontFamily: FONT_BODY, flex: 1,
@@ -831,7 +893,7 @@ function DemoPage() {
                     display: "flex", alignItems: "flex-start", gap: 12,
                     padding: "11px 13px", borderRadius: 8,
                     border: `1px solid ${done ? C.orange : active ? C.orangeLight : C.border}`,
-                    background: done ? C.orangePale : active ? "#FFFBF4" : C.cream,
+                    background: done ? C.orangePale : active ? C.orangePale : C.cream,
                     transition: "all 0.3s",
                   }}>
                     <div style={{
@@ -839,7 +901,7 @@ function DemoPage() {
                       background: done ? C.orange : active ? C.orangePale : C.creamDark,
                       border: `1px solid ${done ? C.orange : active ? C.orangeBorder : C.border}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: done ? 13 : 15, color: done ? C.white : C.ink,
+                      fontSize: done ? 13 : 15, color: done ? C.onAccent : C.ink,
                       fontWeight: done ? 700 : 400, transition: "all 0.3s",
                     }}>{done ? "✓" : s.icon}</div>
                     <div>
@@ -882,7 +944,7 @@ function DemoPage() {
                       background: auditStep >= i ? C.orange : C.creamDark,
                       border: `1px solid ${auditStep >= i ? C.orange : C.border}`,
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 12, color: auditStep >= i ? C.white : C.muted,
+                      fontSize: 12, color: auditStep >= i ? C.onAccent : C.muted,
                       fontWeight: 600, transition: "all 0.3s",
                     }}>{i + 1}</div>
                     <span style={{ fontSize: 12, color: auditStep >= i ? C.orange : C.muted }}>
@@ -947,7 +1009,7 @@ function DemoPage() {
                       disabled={!auditData.workflow || !auditData.hours}
                       style={{
                         flex: 1, background: auditData.workflow && auditData.hours ? C.orange : C.creamDark,
-                        color: auditData.workflow && auditData.hours ? C.white : C.muted,
+                        color: auditData.workflow && auditData.hours ? C.onAccent : C.muted,
                         border: "none", padding: "13px", borderRadius: 6,
                         fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
                         cursor: auditData.workflow && auditData.hours ? "pointer" : "not-allowed",
@@ -1069,7 +1131,7 @@ function ContactPage() {
                 </div>
                 <button onClick={() => canSubmit && setSent(true)} disabled={!canSubmit} style={{
                   background: canSubmit ? C.orange : C.creamDark,
-                  color: canSubmit ? C.white : C.muted,
+                  color: canSubmit ? C.onAccent : C.muted,
                   border: "none", padding: "14px", borderRadius: 6,
                   fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
                   cursor: canSubmit ? "pointer" : "not-allowed", width: "100%",
@@ -1099,6 +1161,7 @@ function ContactPage() {
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("Home");
+  const { theme, toggleTheme } = useTheme();
   const pages = { Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Contact: ContactPage };
   const PageComponent = pages[page] || HomePage;
 
@@ -1108,8 +1171,8 @@ export default function App() {
   }, [page]);
 
   return (
-    <div style={{ fontFamily: FONT_BODY, background: C.white, minHeight: "100vh" }}>
-      <Nav page={page} setPage={setPage} />
+    <div style={{ fontFamily: FONT_BODY, background: C.cream, color: C.ink, minHeight: "100vh", transition: "background 0.3s ease, color 0.3s ease" }}>
+      <Nav page={page} setPage={setPage} theme={theme} toggleTheme={toggleTheme} />
       <main><PageComponent setPage={setPage} /></main>
       <Footer setPage={setPage} />
     </div>
