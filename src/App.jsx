@@ -459,7 +459,7 @@ function HomePage({ setPage }) {
   );
 }
 
-// ─── ABOUT ────────────────────────────────────────────────────────────────────
+// ─── ABOUT ─────��──────────────────────────────────────────────────────────────
 function AboutPage({ setPage }) {
   const isMobile = useIsMobile();
 
@@ -708,57 +708,38 @@ function ServicesPage({ setPage }) {
 // ─── DEMO ─────────────────────────────────────────────────────────────────────
 function DemoPage() {
   const isMobile = useIsMobile();
-  const [activeDemo, setActiveDemo] = useState(0);
-  const [demoStep, setDemoStep] = useState(-1);
-  const [running, setRunning] = useState(false);
   const [auditStep, setAuditStep] = useState(0);
   const [auditData, setAuditData] = useState({ name: "", email: "", sector: "", workflow: "", hours: "" });
   const [submitted, setSubmitted] = useState(false);
-
-  const demos = [
-    { title: "Client onboarding", sector: "Professional Services",
-      desc: "A new client submits an intake form. Watch every downstream action trigger automatically.",
-      steps: [
-        { label: "Client submits intake form",    icon: "📋", detail: "Name, email, service type, and company size captured" },
-        { label: "CRM record created",            icon: "💾", detail: "Contact added to pipeline with correct stage and tags" },
-        { label: "Welcome email sent",            icon: "📧", detail: "Personalised with client name and onboarding next steps" },
-        { label: "Document checklist dispatched", icon: "📁", detail: "Tailored list generated based on selected service type" },
-        { label: "Discovery call booked",         icon: "📅", detail: "Calendar invite created and sent to both parties" },
-        { label: "Internal notification sent",    icon: "🔔", detail: "Slack or Teams message to assigned consultant" },
-      ]},
-    { title: "Learner enrollment", sector: "Education & Training",
-      desc: "A learner registers. Every step to getting them into class happens automatically.",
-      steps: [
-        { label: "Learner submits registration",  icon: "✍️", detail: "Name, email, and programme selection captured" },
-        { label: "Cohort assigned automatically", icon: "👥", detail: "Placed based on start date and remaining capacity" },
-        { label: "Welcome sequence begins",       icon: "📬", detail: "Day 0, Day 3, Day 7 personalised emails sent" },
-        { label: "LMS access provisioned",        icon: "🔑", detail: "Login credentials generated and delivered instantly" },
-        { label: "Progress tracking activated",   icon: "📊", detail: "Dashboard monitors milestone completion in real time" },
-        { label: "At-risk flag triggered",        icon: "⚠️", detail: "Advisor alerted if no login within 5 days" },
-      ]},
-    { title: "Invoice generation", sector: "Professional Services",
-      desc: "Month-end arrives. Time tracked becomes invoice sent — automatically.",
-      steps: [
-        { label: "Month-end trigger fires",       icon: "🗓️", detail: "Scheduled automation activates on the 1st" },
-        { label: "Time entries pulled",           icon: "⏱️", detail: "All billable hours grouped by client and project" },
-        { label: "Invoice auto-drafted",          icon: "📄", detail: "Line items, hours, totals calculated and formatted" },
-        { label: "Sent for one-click approval",   icon: "👁️", detail: "Consultant reviews — no rebuilding from scratch" },
-        { label: "Invoice delivered to client",   icon: "📤", detail: "Emailed with PDF and payment link" },
-        { label: "Follow-up if unpaid",           icon: "🔁", detail: "Reminder sequence starts after 7 days" },
-      ]},
-  ];
-
-  const runDemo = () => {
-    setRunning(true); setDemoStep(0);
-    let s = 0;
-    const iv = setInterval(() => {
-      s++; setDemoStep(s);
-      if (s >= demos[activeDemo].steps.length) { clearInterval(iv); setRunning(false); }
-    }, 850);
-  };
-  const resetDemo  = () => { setDemoStep(-1); setRunning(false); };
-  const switchDemo = (i) => { setActiveDemo(i); setDemoStep(-1); setRunning(false); };
+  const [loading, setLoading] = useState(false);
   const handleAudit = (f, v) => setAuditData(p => ({ ...p, [f]: v }));
+
+  const submitAudit = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "4c71b23d-34a2-4aa1-bf17-00a81ee1e01c",
+          name: auditData.name,
+          email: auditData.email,
+          sector: auditData.sector,
+          workflow: auditData.workflow,
+          hours: auditData.hours,
+          from_name: "Avantgarde Consulting Free Audit",
+          redirect: window.location.href,
+        }),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setAuditData({ name: "", email: "", sector: "", workflow: "", hours: "" });
+      }
+    } catch (err) {
+      console.error("[v0] Audit submission error:", err);
+    }
+    setLoading(false);
+  };
 
   const inputStyle = {
     width: "100%", padding: "11px 14px", borderRadius: 6,
@@ -943,15 +924,15 @@ function DemoPage() {
                       color: C.muted, padding: "13px 18px", borderRadius: 6,
                       fontSize: 13, cursor: "pointer", fontFamily: FONT_BODY,
                     }}>← Back</button>
-                    <button onClick={() => auditData.workflow && auditData.hours && setSubmitted(true)}
-                      disabled={!auditData.workflow || !auditData.hours}
+                    <button onClick={submitAudit}
+                      disabled={!auditData.workflow || !auditData.hours || loading}
                       style={{
-                        flex: 1, background: auditData.workflow && auditData.hours ? C.orange : C.creamDark,
-                        color: auditData.workflow && auditData.hours ? C.white : C.muted,
+                        flex: 1, background: auditData.workflow && auditData.hours && !loading ? C.orange : C.creamDark,
+                        color: auditData.workflow && auditData.hours && !loading ? C.white : C.muted,
                         border: "none", padding: "13px", borderRadius: 6,
                         fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
-                        cursor: auditData.workflow && auditData.hours ? "pointer" : "not-allowed",
-                      }}>Submit for free audit</button>
+                        cursor: auditData.workflow && auditData.hours && !loading ? "pointer" : "not-allowed",
+                      }}>{loading ? "Submitting..." : "Submit for free audit"}</button>
                   </div>
                 </div>
               )}
@@ -968,8 +949,36 @@ function ContactPage() {
   const isMobile = useIsMobile();
   const [form, setForm] = useState({ name: "", email: "", org: "", service: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handle = (f, v) => setForm(p => ({ ...p, [f]: v }));
   const canSubmit = form.name && form.email;
+
+  const submitForm = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "4c71b23d-34a2-4aa1-bf17-00a81ee1e01c",
+          name: form.name,
+          email: form.email,
+          org: form.org,
+          service: form.service,
+          message: form.message,
+          from_name: "Avantgarde Consulting Contact Form",
+          redirect: window.location.href,
+        }),
+      });
+      if (response.ok) {
+        setSent(true);
+        setForm({ name: "", email: "", org: "", service: "", message: "" });
+      }
+    } catch (err) {
+      console.error("[v0] Form submission error:", err);
+    }
+    setLoading(false);
+  };
 
   const inputStyle = {
     width: "100%", padding: "11px 14px", borderRadius: 6,
@@ -1067,13 +1076,13 @@ function ContactPage() {
                     placeholder="What does your team currently do manually? What would you like to change?"
                     rows={4} style={{ ...inputStyle, resize: "vertical", lineHeight: 1.7 }} />
                 </div>
-                <button onClick={() => canSubmit && setSent(true)} disabled={!canSubmit} style={{
-                  background: canSubmit ? C.orange : C.creamDark,
-                  color: canSubmit ? C.white : C.muted,
+                <button onClick={submitForm} disabled={!canSubmit || loading} style={{
+                  background: canSubmit && !loading ? C.orange : C.creamDark,
+                  color: canSubmit && !loading ? C.white : C.muted,
                   border: "none", padding: "14px", borderRadius: 6,
                   fontSize: 14, fontWeight: 600, fontFamily: FONT_BODY,
-                  cursor: canSubmit ? "pointer" : "not-allowed", width: "100%",
-                }}>Send message</button>
+                  cursor: canSubmit && !loading ? "pointer" : "not-allowed", width: "100%",
+                }}>{loading ? "Sending..." : "Send message"}</button>
               </div>
             </div>
           )}
@@ -1103,8 +1112,32 @@ function IntakePage() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const save = useCallback((key, val) => setData(p => ({ ...p, [key]: val })), []);
+
+  const submitIntake = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "4c71b23d-34a2-4aa1-bf17-00a81ee1e01c",
+          ...data,
+          from_name: "Avantgarde Consulting Workflow Intake",
+          redirect: window.location.href,
+        }),
+      });
+      if (response.ok) {
+        setSubmitted(true);
+        setData({});
+      }
+    } catch (err) {
+      console.error("[v0] Intake submission error:", err);
+    }
+    setLoading(false);
+  }, [data]);
 
   const toggleTag = useCallback((key, val) => {
     setData(p => {
@@ -1578,11 +1611,11 @@ function IntakePage() {
             <span style={{ fontSize: 12, color: C.mutedLight }}>{step + 1} / {total}</span>
 
             {isLast ? (
-              <button onClick={() => setSubmitted(true)} style={{
-                padding: "11px 28px", fontSize: 14, fontWeight: 500, cursor: "pointer",
-                border: "none", background: C.orange, color: C.white,
-                borderRadius: 6, fontFamily: FONT_BODY,
-              }}>Submit intake form</button>
+              <button onClick={submitIntake} disabled={loading} style={{
+                padding: "11px 28px", fontSize: 14, fontWeight: 500, cursor: loading ? "not-allowed" : "pointer",
+                border: "none", background: loading ? C.creamDark : C.orange, color: loading ? C.muted : C.white,
+                borderRadius: 6, fontFamily: FONT_BODY, opacity: loading ? 0.6 : 1,
+              }}>{loading ? "Submitting..." : "Submit intake form"}</button>
             ) : (
               <button onClick={() => {
                 if (!current.valid()) {
