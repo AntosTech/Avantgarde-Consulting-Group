@@ -272,7 +272,7 @@ function Footer({ setPage }) {
           marginBottom: "2.5rem",
         }}>
           <div>
-            <img src="/logo.svg" alt="Avantgarde Consulting Group"
+            <img src="/logo-dark.svg" alt="Avantgarde Consulting Group"
               style={{ height: 40, width: "auto", display: "block", marginBottom: 16 }} />
             <p style={{ fontSize: 14, color: "#9A9A9E", lineHeight: 1.85, maxWidth: 280, marginBottom: 14 }}>
               AI governance, intelligent automation, and cloud advisory for organisations ready to operate smarter.
