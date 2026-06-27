@@ -1094,7 +1094,7 @@ function ContactPage() {
               ))}
               <div style={{ padding: "1.25rem", background: C.creamDark, border: `1px solid ${C.border}`, borderRadius: 8 }}>
                 <Label>Direct contact</Label>
-                {[["Email", "info@meetavantgarde.com"], ["Phone", "(844) 311-3117"], ["Location", "Stuttgart, DE · Arlington, VA"]].map(([k, v]) => (
+                {[["Email", "info@meetavantgarde.com"], ["Phone", "(240) 206-5733"], ["Location", "Lisbon, PT · Dallas, TX"]].map(([k, v]) => (
                   <div key={k} style={{ display: "flex", gap: 12, marginBottom: 8 }}>
                     <span style={{ fontSize: 11, color: C.mutedLight, minWidth: 60, textTransform: "uppercase", letterSpacing: "0.08em", paddingTop: 1 }}>{k}</span>
                     <span style={{ fontSize: 13, color: C.inkMid }}>{v}</span>
@@ -1164,7 +1164,7 @@ function ContactPage() {
           {isMobile && (
             <div style={{ padding: "1.25rem", background: C.creamDark, border: `1px solid ${C.border}`, borderRadius: 8 }}>
               <Label>Direct contact</Label>
-              {[["Email", "info@meetavantgarde.com"], ["Phone", "(844) 311-3117"], ["Location", "Stuttgart, DE · Arlington, VA"]].map(([k, v]) => (
+              {[["Email", "info@meetavantgarde.com"], ["Phone", "(844) 311-3117"], ["Location", "Lisbon, PT · Dallas, TX"]].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", gap: 12, marginBottom: 8 }}>
                   <span style={{ fontSize: 11, color: C.mutedLight, minWidth: 60, textTransform: "uppercase", letterSpacing: "0.08em", paddingTop: 1 }}>{k}</span>
                   <span style={{ fontSize: 13, color: C.inkMid }}>{v}</span>
