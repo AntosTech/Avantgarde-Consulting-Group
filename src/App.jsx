@@ -935,6 +935,23 @@ function DemoPage() {
               <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85 }}>
                 We'll send your free audit to <strong>{auditData.email}</strong> within 48 hours.
               </p>
+              <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, marginTop: 20 }}>
+                While you wait, tell us more about your workflow and we&apos;ll include a scoped proposal with your audit.
+              </p>
+              <button onClick={() => setPage("Intake")} style={{
+                marginTop: 20,
+                padding: "12px 24px",
+                border: `1px solid ${C.orange}`,
+                background: "none",
+                color: C.orange,
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: FONT_BODY,
+                cursor: "pointer",
+                borderRadius: 6,
+              }}>
+                Start the intake form →
+              </button>
             </div>
           ) : (
             <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: isMobile ? "1.5rem" : "2.25rem" }}>
