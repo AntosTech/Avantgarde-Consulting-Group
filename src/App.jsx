@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { applySEO } from "./seo.js";
 import { CASE_STUDIES, INDUSTRIES, getCaseStudy, getRelated } from "./caseStudies.js";
+import IntakePage from "./IntakePage.jsx";
 
 // ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 const C = {
@@ -158,7 +159,7 @@ function Dot() {
 function Nav({ page, setPage, theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useIsMobile();
-  const links = ["About", "Services", "CaseStudies", "Demo", "Contact"];
+  const links = ["About", "Services", "CaseStudies", "Demo", "Intake", "Contact"];
   const label = (k) => (k === "CaseStudies" ? "Case Studies" : k);
   const isActive = (k) => page === k || (k === "CaseStudies" && page === "CaseStudyDetail");
   const menuRef = useRef(null);
@@ -1498,7 +1499,7 @@ export default function App() {
   const [caseSlug, setCaseSlug] = useState(null);
   const { theme, toggleTheme } = useTheme();
   const pages = {
-    Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Contact: ContactPage,
+    Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Intake: IntakePage, Contact: ContactPage,
     CaseStudies: CaseStudiesPage, CaseStudyDetail: CaseStudyDetailPage,
   };
   const PageComponent = pages[page] || HomePage;
