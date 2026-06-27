@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+
+# Local env files
+.env
+.env.*.local
+.env.local
+
+# Browser-verification screenshots (root-level artifacts)
+/*.png
