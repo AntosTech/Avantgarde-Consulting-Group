@@ -321,7 +321,7 @@ function Footer({ setPage }) {
         <div style={{ height: 1, background: "#222", marginBottom: "1.5rem" }} />
         <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", gap: 6 }}>
           <p style={{ fontSize: 12, color: "#444" }}>© 2026 Avantgarde Consulting Group LLC · CAGE: 8YUV5 · DUNS: 117944537</p>
-          <p style={{ fontSize: 12, color: "#444" }}>info@meetavantgarde.com · (844) 311-3117</p>
+          <p style={{ fontSize: 12, color: "#444" }}>info@meetavantgarde.com · (240) 206-5733</p>
         </div>
       </div>
     </footer>
@@ -1164,7 +1164,7 @@ function ContactPage() {
           {isMobile && (
             <div style={{ padding: "1.25rem", background: C.creamDark, border: `1px solid ${C.border}`, borderRadius: 8 }}>
               <Label>Direct contact</Label>
-              {[["Email", "info@meetavantgarde.com"], ["Phone", "(844) 311-3117"], ["Location", "Lisbon, PT · Dallas, TX"]].map(([k, v]) => (
+              {[["Email", "info@meetavantgarde.com"], ["Phone", "(240) 206-5733"], ["Location", "Lisbon, PT · Dallas, TX"]].map(([k, v]) => (
                 <div key={k} style={{ display: "flex", gap: 12, marginBottom: 8 }}>
                   <span style={{ fontSize: 11, color: C.mutedLight, minWidth: 60, textTransform: "uppercase", letterSpacing: "0.08em", paddingTop: 1 }}>{k}</span>
                   <span style={{ fontSize: 13, color: C.inkMid }}>{v}</span>
