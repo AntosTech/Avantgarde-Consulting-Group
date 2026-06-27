@@ -39,7 +39,7 @@ export const CASE_STUDIES = [
       label: "UiPath — Suncoast Credit Union",
       url: "https://www.uipath.com/resources/automation-case-studies/suncoast-credit-union",
     },
-    related: ["document-processing-pipeline", "regional-accounting-firm"],
+    related: [],
   },
   {
     slug: "cross-department-document-automation",
@@ -75,7 +75,7 @@ export const CASE_STUDIES = [
       label: "Zenphi — AI Document Processing Case Studies",
       url: "https://zenphi.com/case-studies/",
     },
-    related: ["document-processing-pipeline", "credit-union-fraud-detection"],
+    related: ["credit-union-fraud-detection"],
   },
   {
     slug: "document-automation-roi",
@@ -111,7 +111,7 @@ export const CASE_STUDIES = [
       label: "Parseur — Document Automation ROI",
       url: "https://parseur.com/blog/document-automation-roi",
     },
-    related: ["document-processing-pipeline", "cross-department-document-automation"],
+    related: ["cross-department-document-automation"],
   },
   {
     slug: "buchanan-litigation-workflows",
@@ -147,7 +147,7 @@ export const CASE_STUDIES = [
       label: "UiPath — Buchanan Law Firm",
       url: "https://www.uipath.com/resources/automation-case-studies/buchanan-ingersoll-rooney",
     },
-    related: ["boutique-law-practice", "document-processing-pipeline"],
+    related: [],
   },
   {
     slug: "continental-engineering-validation",
@@ -183,7 +183,7 @@ export const CASE_STUDIES = [
       label: "UiPath — Continental Resources",
       url: "https://www.uipath.com/resources/automation-case-studies/continental-resources",
     },
-    related: ["cross-department-document-automation", "federal-permitting-agency"],
+    related: ["cross-department-document-automation"],
   },
 ];
 
