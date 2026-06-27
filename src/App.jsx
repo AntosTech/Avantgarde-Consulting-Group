@@ -277,7 +277,7 @@ function Footer({ setPage }) {
             <p style={{ fontSize: 14, color: "#9A9A9E", lineHeight: 1.85, maxWidth: 280, marginBottom: 14 }}>
               AI governance, intelligent automation, and cloud advisory for organisations ready to operate smarter.
             </p>
-            <p style={{ fontSize: 11, color: C.orange, letterSpacing: "0.18em", textTransform: "uppercase" }}>Artfully Innovative</p>
+            <p style={{ fontSize: 11, color: C.orange, letterSpacing: "0.18em", textTransform: "uppercase" }}>Modern infrastructure. Human impact.</p>
           </div>
 
           {isMobile ? (
