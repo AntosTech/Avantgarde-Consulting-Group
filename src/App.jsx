@@ -656,35 +656,35 @@ function ServicesPage({ setPage }) {
     { title: "AI Governance & Compliance", icon: "🛡️", tag: "Strategy", sector: "All", featured: true,
       desc: "Build AI risk frameworks that satisfy regulators, auditors, and clients — before they come asking.",
       deliverables: ["AI risk assessment report", "NIST AI RMF implementation roadmap", "EU AI Act readiness review", "AI policy documentation & controls"],
-      price: "From €2,500" },
+      price: "From $2,500" },
     { title: "Workflow Automation", icon: "⚡", tag: "Build", sector: "All",
       desc: "End-to-end automation using n8n and Power Automate — from intake to output, no manual steps in between.",
       deliverables: ["Current state workflow mapping", "Automation architecture design", "Full build + testing", "Handover with complete documentation"],
-      price: "From €1,200" },
+      price: "From $1,250" },
     { title: "Client Onboarding Automation", icon: "🤝", tag: "Professional Services", sector: "Professional Services",
       desc: "Replace the 12-email back-and-forth of onboarding a new client with a single intake flow.",
       deliverables: ["Intake portal build", "Document checklist automation", "Personalised welcome sequence", "CRM auto-population"],
-      price: "From €1,500" },
+      price: "From $1,500" },
     { title: "Invoice & Billing Automation", icon: "📄", tag: "Professional Services", sector: "Professional Services",
       desc: "From time-tracking to sent invoice — automatically. Eliminate the month-end bottleneck.",
       deliverables: ["Time tracker integration", "Auto-drafted invoices", "Approval workflow", "Scheduled client delivery"],
-      price: "From €1,200" },
+      price: "From $1,250" },
     { title: "Learner Enrollment System", icon: "🎓", tag: "Education & Training", sector: "Education & Training",
       desc: "An enrollment-to-completion pipeline that places learners, sends the right content, and alerts you when someone falls behind.",
       deliverables: ["Enrollment form + cohort assignment", "Welcome & orientation sequence", "Progress milestone triggers", "At-risk learner alerts"],
-      price: "From €1,800" },
+      price: "From $1,800" },
     { title: "Certificate Issuance Automation", icon: "🏅", tag: "Education & Training", sector: "Education & Training",
       desc: "Completion triggers a branded certificate generated and delivered in seconds — no delays, no human error.",
       deliverables: ["Completion trigger setup", "Branded certificate template", "Auto-delivery workflow", "Completion registry log"],
-      price: "From €900" },
+      price: "From $950" },
     { title: "Power Platform Development", icon: "🔧", tag: "Build", sector: "All",
       desc: "Custom Power Apps, Power Automate flows, and SharePoint integrations for Microsoft-ecosystem organisations.",
       deliverables: ["Requirements workshop", "Custom Power App build", "Power Automate flows", "SharePoint integration"],
-      price: "From €2,000" },
+      price: "From $2,000" },
     { title: "Cloud & IT Advisory", icon: "☁️", tag: "Strategy", sector: "All",
       desc: "Strategic guidance for organisations moving to or optimising Azure, AWS, and Microsoft 365.",
       deliverables: ["Cloud readiness assessment", "Migration strategy", "Architecture review", "Governance framework"],
-      price: "From €1,500" },
+      price: "From $1,500" },
   ];
   const filtered = sector === "All" ? services : services.filter(s => s.sector === sector || s.sector === "All");
 
@@ -1028,7 +1028,7 @@ function DemoPage() {
   );
 }
 
-// ─── CONTACT ──────────────────────────────────────────────────────────────────
+// ──��� CONTACT ──────────────────────────────────────────────────────────────────
 function ContactPage() {
   const isMobile = useIsMobile();
   const [form, setForm] = useState({ name: "", email: "", org: "", service: "", message: "" });
