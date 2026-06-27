@@ -185,7 +185,7 @@ function Nav({ page, setPage, theme, toggleTheme }) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         {/* Logo */}
         <button onClick={() => navigate("Home")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-          <img src="/logo.png" alt="Avantgarde Consulting Group" style={{ height: 38, width: "auto", display: "block" }} />
+          <img src="/logo.svg" alt="Avantgarde Consulting Group" style={{ height: 38, width: "auto", display: "block" }} />
         </button>
 
         {/* Desktop links */}
@@ -272,7 +272,7 @@ function Footer({ setPage }) {
           marginBottom: "2.5rem",
         }}>
           <div>
-            <img src="/logo.png" alt="Avantgarde Consulting Group"
+            <img src="/logo.svg" alt="Avantgarde Consulting Group"
               style={{ height: 40, width: "auto", display: "block", marginBottom: 16 }} />
             <p style={{ fontSize: 14, color: "#9A9A9E", lineHeight: 1.85, maxWidth: 280, marginBottom: 14 }}>
               AI governance, intelligent automation, and cloud advisory for organisations ready to operate smarter.

@@ -1,0 +1,47 @@
+<svg viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bulb mark (left) -->
+  <g transform="translate(200, 20)">
+    <!-- Bulb outline -->
+    <circle cx="0" cy="0" r="16" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <!-- Bulb glow rays -->
+    <circle cx="0" cy="-28" r="1.5" fill="#eb8102"/>
+    <circle cx="19.8" cy="-19.8" r="1.5" fill="#eb8102"/>
+    <circle cx="28" cy="0" r="1.5" fill="#eb8102"/>
+    <circle cx="19.8" cy="19.8" r="1.5" fill="#eb8102"/>
+    <circle cx="0" cy="28" r="1.5" fill="#eb8102"/>
+    <circle cx="-19.8" cy="19.8" r="1.5" fill="#eb8102"/>
+    <circle cx="-28" cy="0" r="1.5" fill="#eb8102"/>
+    <circle cx="-19.8" cy="-19.8" r="1.5" fill="#eb8102"/>
+    <!-- Inner circles -->
+    <circle cx="0" cy="-22" r="1.5" fill="#eb8102"/>
+    <circle cx="15.6" cy="-15.6" r="1.5" fill="#eb8102"/>
+    <circle cx="22" cy="0" r="1.5" fill="#eb8102"/>
+    <circle cx="15.6" cy="15.6" r="1.5" fill="#eb8102"/>
+    <circle cx="0" cy="22" r="1.5" fill="#eb8102"/>
+    <circle cx="-15.6" cy="15.6" r="1.5" fill="#eb8102"/>
+    <circle cx="-22" cy="0" r="1.5" fill="#eb8102"/>
+    <circle cx="-15.6" cy="-15.6" r="1.5" fill="#eb8102"/>
+    <!-- Bulb fill -->
+    <circle cx="0" cy="0" r="12" fill="#eb8102"/>
+    <!-- Base -->
+    <rect x="-4" y="14" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </g>
+
+  <!-- Text section (right) -->
+  <g>
+    <!-- AVANTGARDE (large weight) -->
+    <text x="250" y="55" font-family="Georgia, serif" font-size="48" font-weight="700" fill="currentColor" letter-spacing="-1">
+      AVANTGARDE
+    </text>
+    
+    <!-- CONSULTING GROUP (lighter weight) -->
+    <text x="250" y="85" font-family="Georgia, serif" font-size="28" font-weight="400" fill="currentColor" letter-spacing="0">
+      CONSULTING GROUP
+    </text>
+    
+    <!-- Tagline -->
+    <text x="250" y="105" font-family="Arial, sans-serif" font-size="10" font-weight="400" fill="#eb8102" letter-spacing="0.15">
+      MODERN INFRASTRUCTURE. HUMAN IMPACT.
+    </text>
+  </g>
+</svg>

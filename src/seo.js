@@ -68,7 +68,7 @@ export function applySEO(page) {
   setMeta('meta[property="og:url"]',            'property=og:url',            meta.canonical);
   setMeta('meta[property="og:type"]',           'property=og:type',           "website");
   setMeta('meta[property="og:site_name"]',      'property=og:site_name',      "Avantgarde Consulting Group");
-  setMeta('meta[property="og:image"]',          'property=og:image',          "https://meetavantgarde.com/logo.png");
+  setMeta('meta[property="og:image"]',          'property=og:image',          "https://meetavantgarde.com/logo.svg");
   setMeta('meta[name="twitter:card"]',          'name=twitter:card',          "summary_large_image");
   setMeta('meta[name="twitter:title"]',         'name=twitter:title',         meta.og_title);
   setMeta('meta[name="twitter:description"]',   'name=twitter:description',   meta.og_description);
@@ -96,7 +96,7 @@ export function applySEO(page) {
     "@type": "ProfessionalService",
     "name": "Avantgarde Consulting Group LLC",
     "url": "https://meetavantgarde.com",
-    "logo": "https://meetavantgarde.com/logo.png",
+    "logo": "https://meetavantgarde.com/logo.svg",
     "description": "AI governance, intelligent automation, and cloud advisory for professional services and education organisations.",
     "slogan": "Modern infrastructure. Human impact.",
     "email": "info@meetavantgarde.com",
