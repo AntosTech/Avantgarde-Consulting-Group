@@ -530,12 +530,12 @@ function AboutPage({ setPage }) {
   const isMobile = useIsMobile();
 
   const certs = [
-    { cert: "AWS Cloud Practitioner",  body: "Amazon Web Services" },
-    { cert: "Azure 70-533",            body: "Microsoft" },
-    { cert: "CompTIA Security+",       body: "CompTIA" },
-    { cert: "MCSE",                    body: "Microsoft Certified Solutions Expert" },
-    { cert: "ITIL 4 Foundation",       body: "Axelos" },
-    { cert: "PL-900 Power Platform",   body: "Microsoft · Power Platform Fundamentals" },
+    { cert: "Amazon Web Services", body: "Cloud infrastructure & advisory" },
+    { cert: "Microsoft Azure", body: "Cloud architecture & governance" },
+    { cert: "Microsoft 365", body: "Productivity & collaboration" },
+    { cert: "Power Platform", body: "Apps, Automate & SharePoint" },
+    { cert: "n8n & Power Automate", body: "Workflow automation builds" },
+    { cert: "AI Governance", body: "NIST AI RMF · EU AI Act" },
   ];
   const values = [
     { title: "Precision over volume",      desc: "We work with a focused client roster so every engagement gets full attention — not a junior associate." },
