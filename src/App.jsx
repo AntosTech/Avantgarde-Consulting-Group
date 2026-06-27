@@ -321,7 +321,13 @@ function Footer({ setPage }) {
         <div style={{ height: 1, background: "#222", marginBottom: "1.5rem" }} />
         <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", gap: 6 }}>
           <p style={{ fontSize: 12, color: "#444" }}>© 2026 Avantgarde Consulting Group LLC · CAGE: 8YUV5 · DUNS: 117944537</p>
-          <p style={{ fontSize: 12, color: "#444" }}>info@meetavantgarde.com · (240) 206-5733</p>
+          <div style={{ fontSize: 12, color: "#444", display: "flex", alignItems: "center", gap: 0 }}>
+            <span>info@meetavantgarde.com · (240) 206-5733</span>
+            <span style={{ margin: "0 8px" }}> · </span>
+            <span onClick={() => setPage("Privacy")} style={{ color: "#eb8102", cursor: "pointer" }}>Privacy Policy</span>
+            <span style={{ margin: "0 8px" }}> · </span>
+            <span onClick={() => setPage("Terms")} style={{ color: "#eb8102", cursor: "pointer" }}>Terms & Conditions</span>
+          </div>
         </div>
       </div>
     </footer>
@@ -1537,13 +1543,51 @@ function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
   );
 }
 
+function PrivacyPage() {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ background: C.white }}>
+      <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <Label>Legal</Label>
+          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>Privacy Policy</h1>
+        </div>
+      </section>
+      <section style={{ padding: isMobile ? "2rem 1.25rem 3.5rem" : "3.5rem 2rem 5rem" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85 }}>Privacy policy content will be added here.</p>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function TermsPage() {
+  const isMobile = useIsMobile();
+  return (
+    <div style={{ background: C.white }}>
+      <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <Label>Legal</Label>
+          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>Terms & Conditions</h1>
+        </div>
+      </section>
+      <section style={{ padding: isMobile ? "2rem 1.25rem 3.5rem" : "3.5rem 2rem 5rem" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85 }}>Terms and conditions content will be added here.</p>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [page, setPage] = useState("Home");
   const [caseSlug, setCaseSlug] = useState(null);
   const { theme, toggleTheme } = useTheme();
   const pages = {
-    Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Intake: IntakePage, Contact: ContactPage,
+    Home: HomePage, About: AboutPage, Services: ServicesPage, Demo: DemoPage, Intake: IntakePage, Contact: ContactPage, Privacy: PrivacyPage, Terms: TermsPage,
     CaseStudies: CaseStudiesPage, CaseStudyDetail: CaseStudyDetailPage,
   };
   const PageComponent = pages[page] || HomePage;
