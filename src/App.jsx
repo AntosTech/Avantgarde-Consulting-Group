@@ -1545,17 +1545,38 @@ function CaseStudyDetailPage({ setPage, openCase, caseSlug }) {
 
 function PrivacyPage() {
   const isMobile = useIsMobile();
+  const sections = [
+    { title: "1. Who We Are", content: "Avantgarde Consulting Group LLC is an AI governance and automation consulting firm registered in the United States, operating across the United States and Germany. Our website is https://meetavantgarde.com. For privacy enquiries contact us at info@meetavantgarde.com." },
+    { title: "2. What Data We Collect", content: "We collect personal data only when you voluntarily provide it through our website forms:\n\nContact Form: your name, email address, and message content.\n\nFree Workflow Audit Form: your email address, business sector, workflow description, and estimated hours per week.\n\nClient Intake Form: your name, job title, company name, email address, number of employees, current technology systems, compliance requirements, budget range, project timeline, stakeholder information, and workflow details.\n\nWe do not collect data through cookies, tracking pixels, or analytics tools beyond standard server logs." },
+    { title: "3. How We Use Your Data", content: "We use the data you provide solely to: respond to your enquiry; prepare and deliver your free workflow audit; scope and propose consulting engagements; and communicate with you about your project. We do not use your data for marketing to third parties or automated profiling." },
+    { title: "4. Legal Basis for Processing (GDPR)", content: "If you are located in the EU or EEA, our legal bases are: Legitimate interests (Article 6(1)(f)) to respond to business enquiries; Performance of a contract (Article 6(1)(b)) where processing is necessary to fulfil an engagement; and Consent (Article 6(1)(a)) where explicitly provided." },
+    { title: "5. Third-Party Services", content: "Web3Forms (https://web3forms.com): handles form submissions and routes them to our inbox. Data is not stored beyond delivery. See https://web3forms.com/privacy.\n\nGoogle Fonts (https://fonts.google.com): loads typography from Google CDN. Your IP may be logged. See https://policies.google.com/privacy.\n\nWe do not use Google Analytics, Facebook Pixel, or any advertising trackers." },
+    { title: "6. Data Retention", content: "Enquiry data is retained for up to 24 months. Client project data is retained for up to 7 years for legal and accounting purposes." },
+    { title: "7. Your Rights", content: "You may have rights to access, rectify, erase, restrict, port, or object to processing of your personal data. Contact us at info@meetavantgarde.com to exercise these rights. We will respond within 30 days. EU residents may also lodge a complaint with their local data protection authority." },
+    { title: "8. Data Security", content: "We implement appropriate technical and organisational measures to protect your data. Form submissions are transmitted over HTTPS. We do not store payment card information." },
+    { title: "9. International Transfers", content: "As we operate in the United States and Germany, your data may be transferred between these jurisdictions in accordance with GDPR Chapter V where applicable." },
+    { title: "10. Children's Privacy", content: "Our services are directed at businesses and professionals. We do not knowingly collect personal data from individuals under 18." },
+    { title: "11. Changes to This Policy", content: "We may update this Privacy Policy periodically. The effective date above reflects the most recent revision." },
+    { title: "12. Contact Us", content: "Avantgarde Consulting Group LLC | info@meetavantgarde.com | (240) 206-5733 | https://meetavantgarde.com" },
+  ];
+  
   return (
     <div style={{ background: C.white }}>
       <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Label>Legal</Label>
           <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>Privacy Policy</h1>
+          <p style={{ fontSize: 13, color: C.muted }}>Effective date: June 27, 2026</p>
         </div>
       </section>
       <section style={{ padding: isMobile ? "2rem 1.25rem 3.5rem" : "3.5rem 2rem 5rem" }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85 }}>Privacy policy content will be added here.</p>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          {sections.map((section, i) => (
+            <div key={i} style={{ marginBottom: 28 }}>
+              <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 700, color: C.ink, marginBottom: 10 }}>{section.title}</h3>
+              <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, whiteSpace: "pre-wrap" }}>{section.content}</p>
+            </div>
+          ))}
         </div>
       </section>
     </div>
@@ -1564,17 +1585,38 @@ function PrivacyPage() {
 
 function TermsPage() {
   const isMobile = useIsMobile();
+  const sections = [
+    { title: "1. Acceptance of Terms", content: "By accessing https://meetavantgarde.com or engaging Avantgarde Consulting Group LLC for consulting services, you agree to these Terms. If you do not agree, please do not use the Site or our services." },
+    { title: "2. Services", content: "Avantgarde provides AI governance consulting, intelligent workflow automation, Power Platform development, and cloud advisory services. Specific deliverables, timelines, and pricing are defined in individual Statements of Work executed between Avantgarde and the client.\n\nThe free workflow audit offered on this Site is a preliminary assessment provided in good faith. It does not constitute a binding proposal, guarantee of outcome, or consulting engagement." },
+    { title: "3. Use of the Site", content: "You must not: attempt to gain unauthorised access to the Site or its infrastructure; transmit spam, malware, or harmful content; reproduce or distribute Site content without written permission; or use automated tools to scrape or harvest data from the Site." },
+    { title: "4. Intellectual Property", content: "All Site content including text, graphics, the Avantgarde logo, case study content, and demo animations is the property of Avantgarde Consulting Group LLC or its licensors. Client deliverables are governed by the intellectual property provisions of the signed consulting agreement." },
+    { title: "5. Confidentiality", content: "Information you share through our forms or direct communication is treated as confidential business information. Formal engagements are covered by a mutual NDA executed prior to project commencement." },
+    { title: "6. Disclaimer of Warranties", content: "The Site and its content are provided on an as-is basis without warranties of any kind. Automation outcomes described in case studies represent results in specific circumstances and are not guaranteed for other engagements." },
+    { title: "7. Limitation of Liability", content: "Avantgarde shall not be liable for indirect, incidental, consequential, or punitive damages. Our total liability for any claim arising from a consulting engagement shall not exceed the total fees paid for that specific engagement." },
+    { title: "8. Third-Party Links", content: "Links to third-party platforms are provided for convenience only. Avantgarde is not responsible for the content or practices of third-party sites." },
+    { title: "9. Governing Law", content: "These Terms are governed by the laws of the Commonwealth of Virginia, United States. For EU clients, mandatory local consumer protection provisions also apply where applicable." },
+    { title: "10. Dispute Resolution", content: "Disputes shall first be addressed through good-faith negotiation. If unresolved within 30 days, disputes shall be submitted to binding arbitration under AAA Commercial Arbitration Rules in Arlington, Virginia." },
+    { title: "11. Changes to These Terms", content: "We reserve the right to update these Terms at any time. Continued use of the Site constitutes acceptance of the revised Terms." },
+    { title: "12. Contact Us", content: "Avantgarde Consulting Group LLC | info@meetavantgarde.com | (240) 206-5733 | https://meetavantgarde.com" },
+  ];
+  
   return (
     <div style={{ background: C.white }}>
       <section style={{ padding: isMobile ? "3rem 1.25rem 2rem" : "4.5rem 2rem 3rem", background: C.cream, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Label>Legal</Label>
           <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>Terms & Conditions</h1>
+          <p style={{ fontSize: 13, color: C.muted }}>Effective date: June 27, 2026</p>
         </div>
       </section>
       <section style={{ padding: isMobile ? "2rem 1.25rem 3.5rem" : "3.5rem 2rem 5rem" }}>
-        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
-          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85 }}>Terms and conditions content will be added here.</p>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          {sections.map((section, i) => (
+            <div key={i} style={{ marginBottom: 28 }}>
+              <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 700, color: C.ink, marginBottom: 10 }}>{section.title}</h3>
+              <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.85, whiteSpace: "pre-wrap" }}>{section.content}</p>
+            </div>
+          ))}
         </div>
       </section>
     </div>
