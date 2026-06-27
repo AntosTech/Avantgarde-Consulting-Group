@@ -1242,6 +1242,34 @@ function CaseStudiesPage({ setPage, openCase }) {
           {filtered.map(cs => (
             <CaseStudyCard key={cs.slug} cs={cs} openCase={openCase} isMobile={isMobile} />
           ))}
+          {/* Placeholder Card */}
+          <div style={{
+            padding: 24,
+            border: `1px dashed ${C.border}`,
+            borderRadius: 8,
+            background: "#FFF8F0",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            minHeight: 300,
+          }}>
+            <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, color: C.ink, marginBottom: 8 }}>Your workflow. Your results.</h3>
+            <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 20, flex: 1 }}>
+              We&apos;re building our client case library. Start with a free audit and let&apos;s document what automation does for your organisation.
+            </p>
+            <button onClick={() => setPage("Demo")} style={{
+              padding: "10px 16px",
+              border: "none",
+              background: "none",
+              color: C.orange,
+              fontSize: 13,
+              fontWeight: 600,
+              fontFamily: FONT_BODY,
+              cursor: "pointer",
+              padding: 0,
+            }}>Get a free audit →</button>
+          </div>
         </div>
       </section>
 
