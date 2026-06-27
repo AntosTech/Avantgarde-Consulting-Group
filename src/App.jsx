@@ -580,7 +580,6 @@ function AboutPage({ setPage }) {
             {[
               ["Degree",   "M.Ed. Instructional Design — George Mason University"],
               ["Degree",   "M.S. Information Technology — UMUC"],
-              ["Progress", "PMP Certification in progress"],
               ["Based",    "Stuttgart, Germany · Arlington, VA, USA"],
               ["Focus",    "AI Governance · Automation · Cloud Advisory"],
             ].map(([label, val], i) => (
