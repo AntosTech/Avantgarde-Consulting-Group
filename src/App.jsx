@@ -771,7 +771,7 @@ function ServicesPage({ setPage }) {
 }
 
 // ─── DEMO ─────────────────────────────────────────────────────────────────────
-function DemoPage() {
+function DemoPage({ setPage }) {
   const isMobile = useIsMobile();
   const [activeDemo, setActiveDemo] = useState(0);
   const [demoStep, setDemoStep] = useState(-1);
