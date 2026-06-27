@@ -580,7 +580,7 @@ function AboutPage({ setPage }) {
             {[
               ["Degree",   "M.Ed. Instructional Design — George Mason University"],
               ["Degree",   "M.S. Information Technology — UMUC"],
-              ["Based",    "Stuttgart, Germany · Arlington, VA, USA"],
+              ["Based",    "Lisbon, Portugal · Dallas, TX, USA"],
               ["Focus",    "AI Governance · Automation · Cloud Advisory"],
             ].map(([label, val], i) => (
               <div key={i} style={{ display: "flex", gap: 12, fontSize: 13, borderTop: `1px solid ${C.border}`, padding: "11px 0", flexWrap: isMobile ? "wrap" : "nowrap" }}>
