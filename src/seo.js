@@ -100,7 +100,7 @@ export function applySEO(page) {
     "description": "AI governance, intelligent automation, and cloud advisory for professional services and education organisations.",
     "slogan": "Modern infrastructure. Human impact.",
     "email": "info@meetavantgarde.com",
-    "telephone": "+18443113117",
+    "telephone": "+12402065733",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "2615 Columbia Pike Ste 210",
