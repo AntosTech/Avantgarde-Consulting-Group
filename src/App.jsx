@@ -275,7 +275,7 @@ function Footer({ setPage }) {
             <img src="/logo-dark.svg" alt="Avantgarde Consulting Group"
               style={{ height: 40, width: "auto", display: "block", marginBottom: 16 }} />
             <p style={{ fontSize: 14, color: "#9A9A9E", lineHeight: 1.85, maxWidth: 280, marginBottom: 14 }}>
-              AI governance, intelligent automation, and cloud advisory for organisations ready to operate smarter.
+              AI governance, intelligent automation, and cloud advisory for organizations ready to operate smarter.
             </p>
             <p style={{ fontSize: 11, color: C.orange, letterSpacing: "0.18em", textTransform: "uppercase" }}>Modern infrastructure. Human impact.</p>
           </div>
@@ -349,7 +349,7 @@ function HomePage({ setPage }) {
       desc: "Law firms, consultancies, and financial advisors spending billable hours on admin that machines should handle.",
       wins: ["Client onboarding automation", "Auto-drafted invoices & billing", "Contract signature tracking", "Lead qualification workflows"] },
     { icon: "🎓", name: "Education & Training",
-      desc: "Training organisations drowning in enrollment, scheduling, and certificate admin instead of delivering learning.",
+      desc: "Training organizations drowning in enrollment, scheduling, and certificate admin instead of delivering learning.",
       wins: ["Enrollment → cohort assignment", "Personalised welcome sequences", "Auto-issued completion certificates", "At-risk learner early alerts"] },
   ];
   const stats = [
@@ -381,7 +381,7 @@ function HomePage({ setPage }) {
               <span style={{ color: C.orange, fontStyle: "italic" }}>machines should do.</span>
             </h1>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.9, marginBottom: 30, maxWidth: 500 }}>
-              We design and deploy AI-powered automation for professional service firms and educational organisations — so your team focuses on work only humans can do.
+              We design and deploy AI-powered automation for professional service firms and educational organizations — so your team focuses on work only humans can do.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Btn onClick={() => setPage("Demo")} size="lg" full={isMobile}>See it in action</Btn>
@@ -684,11 +684,11 @@ function ServicesPage({ setPage }) {
       deliverables: ["Completion trigger setup", "Branded certificate template", "Auto-delivery workflow", "Completion registry log"],
       price: "From $950" },
     { title: "Power Platform Development", icon: "🔧", tag: "Build", sector: "All",
-      desc: "Custom Power Apps, Power Automate flows, and SharePoint integrations for Microsoft-ecosystem organisations.",
+      desc: "Custom Power Apps, Power Automate flows, and SharePoint integrations for Microsoft-ecosystem organizations.",
       deliverables: ["Requirements workshop", "Custom Power App build", "Power Automate flows", "SharePoint integration"],
       price: "From $2,000" },
     { title: "Cloud & IT Advisory", icon: "☁️", tag: "Strategy", sector: "All",
-      desc: "Strategic guidance for organisations moving to or optimising Azure, AWS, and Microsoft 365.",
+      desc: "Strategic guidance for organizations moving to or optimising Azure, AWS, and Microsoft 365.",
       deliverables: ["Cloud readiness assessment", "Migration strategy", "Architecture review", "Governance framework"],
       price: "From $1,500" },
   ];
@@ -766,7 +766,7 @@ function ServicesPage({ setPage }) {
             <Label>Ongoing support</Label>
             <Heading style={{ marginBottom: 12 }}>Need a long-term automation partner?</Heading>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85 }}>
-              All services are available on monthly retainer — for organisations that want continuous improvement, not one-off builds.
+              All services are available on monthly retainer — for organizations that want continuous improvement, not one-off builds.
             </p>
           </div>
           <Btn onClick={() => setPage("Contact")} size="lg" full={isMobile}>Discuss a retainer</Btn>
@@ -1239,7 +1239,7 @@ function CaseStudiesPage({ setPage, openCase }) {
           <Label>Industry Examples</Label>
           <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: isMobile ? "2rem" : "clamp(2rem, 4vw, 3.2rem)", color: C.ink, marginBottom: 14 }}>What AI automation makes possible.</h1>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.85, maxWidth: 560, marginBottom: 18 }}>
-            How organisations across industries are using AI and workflow automation to replace manual work with reliable systems. These are industry examples — drawn from publicly reported case studies and representative scenarios — shown to illustrate what&apos;s achievable. Filter by industry below.
+            How organizations across industries are using AI and workflow automation to replace manual work with reliable systems. These are industry examples — drawn from publicly reported case studies and representative scenarios — shown to illustrate what&apos;s achievable. Filter by industry below.
           </p>
           <p style={{ fontSize: 12.5, color: C.mutedLight, lineHeight: 1.7, maxWidth: 560, marginBottom: 28, fontStyle: "italic" }}>
             Examples are presented for illustration only and do not represent Avantgarde client engagements. Company names and outcomes belong to the cited sources.
