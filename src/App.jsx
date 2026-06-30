@@ -566,7 +566,7 @@ function AboutPage({ setPage }) {
               Avantgarde Consulting Group is led by <strong style={{ color: C.inkSoft, fontWeight: 500 }}>Akisha D. Anthony</strong> — an enterprise IT strategist with over 15 years of experience spanning cloud infrastructure, digital transformation, and AI governance.
             </p>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.9, marginBottom: 14 }}>
-              Before founding Avantgarde, Akisha spent years working inside some of the most compliance-heavy, operationally complex environments in enterprise IT — which means she understands both the technical architecture and the organisational reality of making change actually stick.
+              Before founding Avantgarde, Akisha spent years working inside some of the most compliance-heavy, operationally complex environments in enterprise IT — which means she understands both the technical architecture and the organizational reality of making change actually stick.
             </p>
             <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.9 }}>
               Holding dual master's degrees in Instructional Design and Information Technology, she bridges the gap between human-centred design and enterprise infrastructure in a way few consultants can.
@@ -800,7 +800,7 @@ function DemoPage({ setPage }) {
     { title: "Learner enrollment", sector: "Education & Training",
       desc: "A learner registers. Every step to getting them into class happens automatically.",
       steps: [
-        { label: "Learner submits registration",  icon: "✍️", detail: "Name, email, and programme selection captured" },
+        { label: "Learner submits registration",  icon: "✍️", detail: "Name, email, and program selection captured" },
         { label: "Cohort assigned automatically", icon: "👥", detail: "Placed based on start date and remaining capacity" },
         { label: "Welcome sequence begins",       icon: "📬", detail: "Day 0, Day 3, Day 7 personalised emails sent" },
         { label: "LMS access provisioned",        icon: "🔑", detail: "Login credentials generated and delivered instantly" },
@@ -1279,7 +1279,7 @@ function CaseStudiesPage({ setPage, openCase }) {
           }}>
             <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, color: C.ink, marginBottom: 8 }}>Your workflow. Your results.</h3>
             <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, marginBottom: 20, flex: 1 }}>
-              We&apos;re building our client case library. Start with a free audit and let&apos;s document what automation does for your organisation.
+              We&apos;re building our client case library. Start with a free audit and let&apos;s document what automation does for your organization.
             </p>
             <button onClick={() => setPage("Demo")} style={{
               padding: "10px 16px",
@@ -1553,7 +1553,7 @@ function PrivacyPage() {
     { title: "5. Third-Party Services", content: "Web3Forms (https://web3forms.com): handles form submissions and routes them to our inbox. Data is not stored beyond delivery. See https://web3forms.com/privacy.\n\nGoogle Fonts (https://fonts.google.com): loads typography from Google CDN. Your IP may be logged. See https://policies.google.com/privacy.\n\nWe do not use Google Analytics, Facebook Pixel, or any advertising trackers." },
     { title: "6. Data Retention", content: "Enquiry data is retained for up to 24 months. Client project data is retained for up to 7 years for legal and accounting purposes." },
     { title: "7. Your Rights", content: "You may have rights to access, rectify, erase, restrict, port, or object to processing of your personal data. Contact us at info@meetavantgarde.com to exercise these rights. We will respond within 30 days. EU residents may also lodge a complaint with their local data protection authority." },
-    { title: "8. Data Security", content: "We implement appropriate technical and organisational measures to protect your data. Form submissions are transmitted over HTTPS. We do not store payment card information." },
+    { title: "8. Data Security", content: "We implement appropriate technical and organizational measures to protect your data. Form submissions are transmitted over HTTPS. We do not store payment card information." },
     { title: "9. International Transfers", content: "As we operate in the United States and Europe, your data may be transferred between these jurisdictions in accordance with GDPR Chapter V where applicable." },
     { title: "10. Children's Privacy", content: "Our services are directed at businesses and professionals. We do not knowingly collect personal data from individuals under 18." },
     { title: "11. Changes to This Policy", content: "We may update this Privacy Policy periodically. The effective date above reflects the most recent revision." },
@@ -1588,7 +1588,7 @@ function TermsPage() {
   const sections = [
     { title: "1. Acceptance of Terms", content: "By accessing https://meetavantgarde.com or engaging Avantgarde Consulting Group LLC for consulting services, you agree to these Terms. If you do not agree, please do not use the Site or our services." },
     { title: "2. Services", content: "Avantgarde provides AI governance consulting, intelligent workflow automation, Power Platform development, and cloud advisory services. Specific deliverables, timelines, and pricing are defined in individual Statements of Work executed between Avantgarde and the client.\n\nThe free workflow audit offered on this Site is a preliminary assessment provided in good faith. It does not constitute a binding proposal, guarantee of outcome, or consulting engagement." },
-    { title: "3. Use of the Site", content: "You must not: attempt to gain unauthorised access to the Site or its infrastructure; transmit spam, malware, or harmful content; reproduce or distribute Site content without written permission; or use automated tools to scrape or harvest data from the Site." },
+    { title: "3. Use of the Site", content: "You must not: attempt to gain unauthorized access to the Site or its infrastructure; transmit spam, malware, or harmful content; reproduce or distribute Site content without written permission; or use automated tools to scrape or harvest data from the Site." },
     { title: "4. Intellectual Property", content: "All Site content including text, graphics, the Avantgarde logo, case study content, and demo animations is the property of Avantgarde Consulting Group LLC or its licensors. Client deliverables are governed by the intellectual property provisions of the signed consulting agreement." },
     { title: "5. Confidentiality", content: "Information you share through our forms or direct communication is treated as confidential business information. Formal engagements are covered by a mutual NDA executed prior to project commencement." },
     { title: "6. Disclaimer of Warranties", content: "The Site and its content are provided on an as-is basis without warranties of any kind. Automation outcomes described in case studies represent results in specific circumstances and are not guaranteed for other engagements." },

@@ -2,7 +2,7 @@
 export const SEO = {
   Home: {
     title: "Avantgarde Consulting Group LLC — AI Governance & Automation",
-    description: "We design and deploy AI-powered automation for professional service firms and educational organisations. Free workflow audit within 48 hours.",
+    description: "We design and deploy AI-powered automation for professional service firms and educational organizations. Free workflow audit within 48 hours.",
     og_title: "Avantgarde Consulting Group — Modern infrastructure. Human impact.",
     og_description: "AI governance, intelligent automation, and cloud advisory. Serving Professional Services and Education sectors globally.",
     canonical: "https://meetavantgarde.com/",
@@ -97,7 +97,7 @@ export function applySEO(page) {
     "name": "Avantgarde Consulting Group LLC",
     "url": "https://meetavantgarde.com",
     "logo": "https://meetavantgarde.com/logo.svg",
-    "description": "AI governance, intelligent automation, and cloud advisory for professional services and education organisations.",
+    "description": "AI governance, intelligent automation, and cloud advisory for professional services and education organizations.",
     "slogan": "Modern infrastructure. Human impact.",
     "email": "info@meetavantgarde.com",
     "telephone": "+12402065733",

@@ -48,17 +48,17 @@ export const CASE_STUDIES = [
     industry: "Professional Services",
     image: "/cases/multi-department.png",
     summary:
-      "Documented AI document-processing wins across HR, finance, sales, and procurement — cutting labour cost and errors while making document workflows scalable and audit-ready.",
+      "Documented AI document-processing wins across HR, finance, sales, and procurement — cutting labor cost and errors while making document workflows scalable and audit-ready.",
     cardMetric: "Lower cost, fewer errors",
     hero: {
       tagline: "How AI document processing scales across every department that handles paperwork.",
     },
     problem:
-      "Across HR, finance, sales, and procurement, teams handled high volumes of documents manually — onboarding forms, invoices, contracts, and purchase orders all read and re-keyed by hand. The work was labour-intensive and error-prone, slowed every department down, and made consistent compliance hard to guarantee as volume grew.",
+      "Across HR, finance, sales, and procurement, teams handled high volumes of documents manually — onboarding forms, invoices, contracts, and purchase orders all read and re-keyed by hand. The work was labor-intensive and error-prone, slowed every department down, and made consistent compliance hard to guarantee as volume grew.",
     solution:
       "AI document processing was deployed across each department to ingest, classify, and extract data from documents automatically, then route the structured output into the right systems. The same pipeline approach adapts to each team's document types — so HR, finance, sales, and procurement all gain accurate, scalable, audit-ready workflows without adding staff.",
     results: [
-      { metric: "Lower cost", label: "Reduced manual labour spend" },
+      { metric: "Lower cost", label: "Reduced manual labor spend" },
       { metric: "Fewer errors", label: "More accurate data capture" },
       { metric: "Higher efficiency", label: "Faster document throughput" },
       { metric: "Compliance", label: "Audit-ready, scalable workflows" },
