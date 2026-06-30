@@ -421,7 +421,7 @@ function HomePage({ setPage }) {
       <section style={{ background: C.creamDark, borderBottom: `1px solid ${C.border}`, padding: "0.9rem 1.25rem", overflowX: "auto" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", whiteSpace: "nowrap", justifyContent: isMobile ? "flex-start" : "center", minWidth: "max-content", margin: "0 auto" }}>
           <span style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.mutedLight }}>Credentials</span>
-          {["15+ Yrs Enterprise IT", "AWS Certified", "Azure 70-533", "Security+", "ITIL 4", "PL-900", "M.Ed · M.S. IT"].map(c => (
+          {["15+ Yrs Enterprise IT", "Microsoft 365", "Anthropic Claude", "Microsoft Power Platform", "ITIL", "Azure Foundry & OpenAI", "M.Ed · M.S. IT"].map(c => (
             <span key={c} style={{ fontSize: 12, color: C.muted }}>· {c}</span>
           ))}
         </div>
