@@ -452,7 +452,7 @@ function HomePage({ setPage }) {
       <section style={{ padding: isMobile ? "3.5rem 1.25rem" : "5.5rem 2rem", background: C.white, borderBottom: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1080, margin: "0 auto" }}>
           <Label>Who we work with</Label>
-          <Heading size="2.8rem" style={{ marginBottom: 12 }}>We specialise, not generalise.</Heading>
+          <Heading size="2.8rem" style={{ marginBottom: 12 }}>We specialize, not generalize.</Heading>
           <p style={{ fontSize: 15, color: C.muted, marginBottom: 36, maxWidth: 520, lineHeight: 1.85 }}>
             Two sectors. Deep fluency in both. We understand your workflows before you explain them.
           </p>
